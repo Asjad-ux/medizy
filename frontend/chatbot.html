@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MediBot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input id="search" placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button class="active" onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h1>Ask MediBot</h1>
+        <p class="subtitle">Your AI-powered health assistant</p>
+
+        <!-- CHAT BOX -->
+        <div class="chat-container">
+
+            <div id="chatBox" class="chat-box">
+                <div class="bot-msg">👋 Hello! Ask me anything about medicines.</div>
+            </div>
+
+            <div class="chat-input">
+                <input id="userInput" placeholder="Type your question...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// navigation
+function go(page){
+    window.location.href = page;
+}
+
+// search
+document.getElementById("search").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        localStorage.setItem("searchQuery", this.value);
+        window.location.href = "search.html";
+    }
+});
+
+// time
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+// chatbot logic
+function sendMessage(){
+
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+
+    if(message === "") return;
+
+    const chatBox = document.getElementById("chatBox");
+
+    // user message
+    chatBox.innerHTML += `<div class="user-msg">${message}</div>`;
+
+    // simple AI reply
+    let reply = "I recommend consulting a doctor.";
+
+    if(message.toLowerCase().includes("fever")){
+        reply = "You can take Paracetamol for fever.";
+    }
+    else if(message.toLowerCase().includes("pain")){
+        reply = "Pain relief medicines like Ibuprofen may help.";
+    }
+    else if(message.toLowerCase().includes("cold")){
+        reply = "For cold, try antihistamines and stay hydrated.";
+    }
+
+    // bot reply
+    setTimeout(()=>{
+        chatBox.innerHTML += `<div class="bot-msg">${reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    },500);
+
+    input.value = "";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Prescription</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile">👤</div>
+    </div>
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button class="active" onclick="go('Prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content center-content">
+
+        <div class="auth-card">
+
+            <img src="assets/folder.png" class="icon">
+
+            <p>
+                Click the button below to upload your<br>
+                prescription
+            </p>
+
+            <p class="or">-----OR-----</p>
+
+            <input type="file" id="fileInput" hidden>
+
+            <button onclick="document.getElementById('fileInput').click()">
+                Choose Files
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function go(page){
+    window.location.href = page;
+}
+
+// upload → next page
+document.getElementById("fileInput").addEventListener("change", function(){
+    window.location.href = "prescription-result.html";
+});
+
+// time
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerHTML =
+        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + "<br>" +
+        day + "<br>" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+</script>
+
+</body>
+</html>

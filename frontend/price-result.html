@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Price Result</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+        <img src="assets/logo.png">
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button class="active" onclick="go('price-result.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SEARCH BAR -->
+        <div class="search-wrapper top-search">
+            <input id="searchAgain" placeholder="Search medicine...">
+            <span>🔍</span>
+        </div>
+
+        <!-- HEADER -->
+        <div class="table-header">
+            <span>Medicine</span>
+            <span>Store</span>
+            <span>Price</span>
+            <span>Visit</span>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="results"></div>
+
+    </div>
+
+</div>
+
+<script>
+function go(page){
+    window.location.href = page;
+}
+
+// 🔍 Load query
+const query = localStorage.getItem("priceQuery") || "Paracetamol";
+document.getElementById("searchAgain").value = query;
+
+const container = document.getElementById("results");
+
+// 🚀 Fetch from backend
+async function fetchPrices() {
+    try {
+        const res = await fetch(`http://localhost:3000/api/price?q=${query}`);
+        const data = await res.json();
+
+        container.innerHTML = "";
+
+        // ❌ No data case
+        if (!data || data.length === 0) {
+            container.innerHTML = "<p>No data found</p>";
+            return;
+        }
+
+        // 💰 Cheapest calculation
+        const prices = data.map(d => parseInt(d.price.replace("₹","")) || 9999);
+        const minPrice = Math.min(...prices);
+
+        // 🎯 Render
+        data.forEach(item => {
+            const priceValue = parseInt(item.price.replace("₹","")) || 9999;
+            const isCheapest = priceValue === minPrice;
+
+            container.innerHTML += `
+            <div class="price-row">
+                <span>${item.name}</span>
+                <span>${item.store}</span>
+
+                <span style="${isCheapest ? 'color:green;font-weight:bold;' : ''}">
+                    ${item.price}
+                </span>
+
+                <span>
+                    ${item.link && item.link !== "#" 
+                        ? `<a href="${item.link}" target="_blank"><button>Go</button></a>` 
+                        : '-'}
+                </span>
+            </div>`;
+        });
+
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = "<p>⚠️ Error loading data</p>";
+    }
+}
+
+fetchPrices();
+
+// 🔁 Search again
+document.getElementById("searchAgain").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        localStorage.setItem("priceQuery", this.value);
+        location.reload();
+    }
+});
+
+// ⏰ Time
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+</body>
+</html>

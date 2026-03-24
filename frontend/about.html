@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Medizy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input id="search" placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button class="active" onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h1>About Medizy</h1>
+        <p class="subtitle">Smart Healthcare, Simplified</p>
+
+        <div class="card big">
+
+            <p>
+                Medizy is an AI-powered healthcare platform designed to provide
+                quick and reliable medicine information to users. Our goal is to
+                make healthcare more accessible, smarter, and efficient.
+            </p>
+            <br>
+            <p>
+                Users can scan prescriptions, search medicines, compare prices,
+                and interact with our AI assistant (MediBot) for guidance.
+            </p>
+            <br>
+            <p>
+                We aim to bridge the gap between patients and accurate medical
+                information using modern technology.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>📌 Features</h3>
+                <p>
+                    • Prescription scanning<br>
+                    • Medicine search<br>
+                    • AI chatbot assistance<br>
+                    • Price comparison<br>
+                    • Analytics insights
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Our Mission</h3>
+                <p>
+                    To make healthcare information easily accessible to everyone
+                    using AI-driven solutions.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Vision</h3>
+                <p>
+                    To become a trusted digital healthcare assistant for users worldwide.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>💡 Technology</h3>
+                <p>
+                    Built using modern web technologies and AI to deliver fast
+                    and accurate results.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// navigation
+function go(page){
+    window.location.href = page;
+}
+
+// search
+document.getElementById("search").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        localStorage.setItem("searchQuery", this.value);
+        window.location.href = "search.html";
+    }
+});
+
+// time
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+</script>
+
+</body>
+</html>

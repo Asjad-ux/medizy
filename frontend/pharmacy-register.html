@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Pharmacy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button class="active" onclick="go('pharmacy-upload.html')">Register your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content register-layout">
+
+        <!-- LEFT FORM -->
+        <div class="register-card">
+
+            <img src="assets/logo.png" class="register-logo">
+
+            <h2>Register your Pharmacy</h2>
+
+            <div class="form-box">
+
+                <div class="input-box">
+                    <label>Pharmacy Name :</label>
+                    <input type="text" id="name">
+                </div>
+
+                <div class="input-box">
+                    <label>Address :</label>
+                    <input type="text" id="address">
+                </div>
+
+                <div class="input-box">
+                    <label>GST No. :</label>
+                    <input type="text" id="gst">
+                </div>
+
+                <button class="submit-btn" onclick="registerPharmacy()">
+                    Submit
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT TERMS -->
+        <div class="terms-box">
+
+            <h3>Medizy Pharmacy Registration – Terms & Conditions</h3>
+
+            <p><b>Valid License Requirement</b><br>
+            The pharmacy must possess a valid and active drug license.</p>
+
+            <p><b>Accurate Business Information</b><br>
+            All submitted details must be true and up to date.</p>
+
+            <p><b>Google Maps Presence</b><br>
+            Pharmacy must be visible on Google Maps.</p>
+
+            <p><b>Authenticity of Medicines</b><br>
+            Only genuine medicines allowed.</p>
+
+            <p><b>Prescription Compliance</b><br>
+            Follow prescription rules strictly.</p>
+
+            <p><b>Stock & Availability Updates</b><br>
+            Maintain real-time stock updates.</p>
+
+            <p><b>Right to Suspension</b><br>
+            Medizy can suspend accounts if rules violated.</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function go(page){ window.location.href = page; }
+
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+<script>
+
+function go(page){ window.location.href = page; }
+
+// 🔥 THIS FUNCTION MUST BE HERE
+async function registerPharmacy() {
+
+    const name = document.getElementById("name").value;
+    const address = document.getElementById("address").value;
+    const gst = document.getElementById("gst").value;
+
+    if (!name || !address || !gst) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:3000/api/register-pharmacy", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, address, gst })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert("Registered!");
+            window.location.href = "pharmacy-upload.html";
+        } else {
+            alert("Error saving data");
+        }
+
+    } catch (err) {
+        console.log(err);
+        alert("Server error");
+    }
+}
+
+</script>
+
+</body>
+</html>

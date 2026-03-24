@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="login-card">
+
+        <h2>User's Profile</h2>
+
+        <div class="form-box">
+
+            <div class="input-box">
+                <label>Email :</label>
+                <input id="email" disabled>
+            </div>
+
+            <div class="input-box">
+                <label>Password :</label>
+                <input id="password" disabled>
+            </div>
+
+            <div class="input-box">
+                <label>Phone Number :</label>
+                <input id="phone" disabled>
+            </div>
+
+            <div class="btns-center">
+                <button onclick="logout()">Logout</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+// 🔥 PAGE LOAD CHECK (important)
+const email = localStorage.getItem("userEmail");
+const password = localStorage.getItem("userPassword");
+const phone = localStorage.getItem("userPhone");
+
+// ❌ agar login nahi hai → redirect
+if (!email || !password) {
+    window.location.href = "login.html";
+}
+
+// ✅ data fill karo
+document.getElementById("email").value = email || "";
+document.getElementById("password").value = password || "";
+document.getElementById("phone").value = phone || "";
+
+// 🔓 logout function
+function logout(){
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

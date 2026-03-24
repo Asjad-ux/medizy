@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medizy Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="login-card">
+
+        <img src="assets/logo.png" class="logo">
+
+        <h1>Welcome To Medizy</h1>
+
+        <p class="subtitle">
+            AI-powered platform that instantly provides accurate medicine
+            information and smarter healthcare guidance.
+        </p>
+
+        <!-- 🔥 TOAST -->
+        <div id="toast"></div>
+
+        <!-- Login Section -->
+        <h3 class="login-title">Login</h3>
+        <small class="login-sub">(If you are an Existing User)</small>
+
+        <!-- FORM START -->
+        <form onsubmit="return false;">
+
+            <div class="form-box">
+
+                <div class="input-box">
+                    <label>Email :</label>
+                    <input type="text" id="email" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Password :</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="btns">
+                    <button type="button" onclick="location.href='signup.html'">
+                        New User
+                    </button>
+
+                    <!-- 🔥 IMPORTANT -->
+                    <button type="button" onclick="handleLogin()">Login</button>
+                </div>
+
+            </div>
+
+        </form>
+        <!-- FORM END -->
+
+    </div>
+
+</div>
+
+<!-- 🔥 SCRIPT -->
+<script src="script.js"></script>
+
+</body>
+</html>

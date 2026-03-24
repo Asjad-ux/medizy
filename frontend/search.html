@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Medicines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+        <img src="assets/logo.png">
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <input id="searchInput" placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button onclick="go('prescription-result.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SEARCH BAR -->
+        <div class="search-big">
+            <input placeholder="Search Medicines..." id="bigSearch">
+            
+        </div>
+
+        <!-- 🔥 SORT SWITCH -->
+        <div style="margin:20px 0;">
+            <label>Sort by: </label>
+            <button id="priceBtn" onclick="setSort('price')" style="background:#4CAF50;color:white;">Price</button>
+            <button id="distanceBtn" onclick="setSort('distance')">Distance</button>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="pharmacy-grid" id="results"></div>
+
+    </div>
+</div>
+
+<script>
+
+// 🔁 NAVIGATION
+function go(page){
+    window.location.href = page;
+}
+
+// ⏰ TIME
+function updateTime(){
+    const now = new Date();
+    document.getElementById("time").innerHTML =
+        now.toLocaleTimeString() + "<br>" +
+        now.toLocaleDateString(undefined, { weekday: 'long' }) + "<br>" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+// 🔍 GET QUERY
+const params = new URLSearchParams(window.location.search);
+const query = params.get("q");
+console.log("Query:", query);
+
+// 🔥 GLOBAL VARIABLES
+let allData = [];
+let sortType = "price";
+let userLat = null;
+let userLng = null;
+
+// 🔎 SEARCH BAR (TOP)
+document.getElementById("searchInput").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        window.location.href = `search.html?q=${this.value}`;
+    }
+});
+
+// MIDDLE SEARCH BAR 
+document.getElementById("bigSearch").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        window.location.href = `search.html?q=${this.value}`;
+    }
+});
+
+// 📍 GET USER LOCATION
+navigator.geolocation.getCurrentPosition(
+    (pos) => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        fetchResults();
+    },
+    (error) => {
+        console.log("Location denied, using default");
+
+        // default location (Delhi)
+        userLat = 28.500720979149005;
+        userLng = 77.29136230275058;
+
+        fetchResults(); // 🔥 IMPORTANT
+    }
+);
+
+// 🚀 FETCH DATA
+async function fetchResults() {
+    try {
+        const res = await fetch(`http://localhost:3000/search?q=${query}`);
+        const data = await res.json();
+
+        allData = data;
+        applySorting();
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
+    }
+}
+
+// 📏 DISTANCE CALCULATION
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+
+    const a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+// 🔥 APPLY SORTING
+function applySorting() {
+    let data = [...allData];
+
+    data.forEach(item => {
+        item.distance = getDistance(userLat, userLng, item.latitude, item.longitude);
+    });
+
+    if(sortType === "price"){
+        data.sort((a,b) => a.price - b.price);
+    } else {
+        data.sort((a,b) => a.distance - b.distance);
+    }
+
+    displayResults(data.slice(0,6));
+}
+
+// 🎛️ SWITCH BUTTON
+function setSort(type){
+    sortType = type;
+
+    document.getElementById("priceBtn").style.background =
+        type === "price" ? "#4CAF50" : "";
+
+    document.getElementById("distanceBtn").style.background =
+        type === "distance" ? "#4CAF50" : "";
+
+    applySorting();
+}
+
+// 🎨 DISPLAY
+function displayResults(data){
+    const container = document.getElementById("results");
+    container.innerHTML = "";
+
+    if(data.length === 0){
+        container.innerHTML = "<h3>No medicines found </h3>";
+        return;
+    }
+
+    data.forEach(item => {
+        const card = `
+        <div class="pharmacy-card">
+            <img src="${item.image_url}" alt="">
+            <div class="pharmacy-info">
+                <h3>${item.name}</h3>
+                <p>${item.medicine_name} – <span class="stock">In Stock</span></p>
+                <p>Price – ₹${item.price}</p>
+                <p>Distance – ${item.distance.toFixed(2)} km</p>
+                <button onclick="getDirection(${item.latitude}, ${item.longitude})">
+                    Get Directions
+                </button>
+            </div>
+        </div>
+        `;
+        container.innerHTML += card;
+    });
+}
+
+// 🗺️ MAP
+function getDirection(lat, lng){
+    navigator.geolocation.getCurrentPosition(pos => {
+        const userLat = pos.coords.latitude;
+        const userLng = pos.coords.longitude;
+
+        const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}`;
+        window.open(url, "_blank");
+    });
+}
+
+</script>
+
+</body>
+</html>

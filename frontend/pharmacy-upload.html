@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Pharmacy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button class="active" onclick="go('pharmacy-upload.html')">Register your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="cards">
+
+            <!-- UPLOAD -->
+            <div class="card big">
+                <h3>Upload Register Image</h3>
+
+                <p>Click the button to upload your Register Image</p>
+
+                <input type="file">
+
+            </div>
+
+            <!-- STOCK -->
+            <div class="card big">
+                <h3>STOCK PREDICTION BOX</h3>
+            </div>
+
+            <!-- STATS -->
+            <div class="card big">
+                <h3>STATS OF THE SHOP ON OUR PLATFORM</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function go(page){ window.location.href = page; }
+
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+</body>
+</html>

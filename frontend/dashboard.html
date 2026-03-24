@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medizy Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input type="text" id="searchInput"placeholder="Search Medicine in Nearby Stores" />
+
+        <script>
+        document.getElementById("searchInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                const query = this.value;
+                window.location.href = `search.html?q=${query}`;
+            }
+        });
+        </script>
+        <div class="profile" onclick="go('profile.html')">👤</div>
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h1>Dashboard</h1>
+        <p class="subtitle">Welcome to your AI-powered health assistant</p>
+
+        <div class="cards">
+
+            <div class="card" onclick="go('prescription-upload.html')">
+                <h3>Scan Prescription</h3>
+                <p>Scan strip for Instant details</p>
+            </div>
+
+            <div class="card" onclick="go('image-search.html')">
+                <h3>Image Search</h3>
+                <p>Search Medicines by voice</p>
+            </div>
+
+            <div class="card" onclick="go('chatbot.html')">
+                <h3>Ask MediBot</h3>
+                <p>(AI Powered)</p>
+            </div>
+
+            <div class="card" onclick="go('analytics.html')">
+                <h3>Analytics</h3>
+                <p>Most Searched Medicine today & etc</p>
+            </div>
+
+            <div class="card big">Health Alerts by AI</div>
+            <div class="card big">Price Comparison Charts</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// 🔹 Navigation function
+function go(page){
+    window.location.href = page;
+}
+
+// 🔹 SEARCH FUNCTION (IMPORTANT FIX)
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+
+        const query = searchInput.value.trim();
+
+        if(query !== ""){
+            // save query
+            localStorage.setItem("searchQuery", query);
+
+            // redirect
+            window.location.href = "search.html";
+        }
+    }
+});
+
+// ⏰ TIME
+function updateTime(){
+    const now = new Date();
+    document.getElementById("time").innerHTML =
+        now.toLocaleTimeString() + "<br>" +
+        now.toLocaleDateString(undefined, { weekday: 'long' }) + "<br>" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+
+</script>
+
+</body>
+</html>

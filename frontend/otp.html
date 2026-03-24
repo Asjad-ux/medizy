@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="login-card">
+
+        <img src="assets/logo.png" class="logo">
+
+        <h1>User Verification by OTP</h1>
+
+        <p class="subtitle">
+            An OTP has been sent to your registered Email ID
+        </p>
+
+        <!-- FORM START -->
+        <form onsubmit="verifyOTP(event)">
+
+            <div class="form-box">
+
+                <p class="otp-text">Please enter the OTP Below</p>
+
+                <!-- OTP BOXES -->
+                <div class="otp-boxes">
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                </div>
+
+                <div class="btns-center">
+                    <button type="submit">Submit</button>
+                </div>
+
+            </div>
+
+        </form>
+        <!-- FORM END -->
+
+    </div>
+
+</div>
+
+<!-- 🔥 OTP VERIFY SCRIPT -->
+<script>
+async function verifyOTP(event) {
+  event.preventDefault();
+
+  const inputs = document.querySelectorAll(".otp-boxes input");
+  let otp = "";
+
+  inputs.forEach(input => {
+    otp += input.value;
+  });
+
+  console.log("OTP:", otp);
+
+  const email = localStorage.getItem("userEmail");
+  const password = localStorage.getItem("userPassword");
+  const phone = localStorage.getItem("userPhone");
+
+  console.log("DATA:", { email, password, phone, otp });
+
+  const res = await fetch("http://localhost:3000/api/verify-otp", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ email, password, phone, otp })
+  });
+
+  const data = await res.json();
+
+  console.log("RESPONSE:", data);
+
+  if (data.success) {
+    alert("Signup Successful");
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Invalid OTP");
+  }
+}
+</script>
+
+<!-- 🔥 AUTO MOVE OTP INPUT -->
+<script>
+const inputs = document.querySelectorAll(".otp-boxes input");
+
+inputs.forEach((input, index) => {
+
+    input.addEventListener("input", () => {
+        if (input.value.length === 1) {
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        }
+    });
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && input.value === "") {
+            if (index > 0) {
+                inputs[index - 1].focus();
+            }
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

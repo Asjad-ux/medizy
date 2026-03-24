@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medizy Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="login-card">
+
+        <img src="assets/logo.png" class="logo">
+
+        <h1>Sign-up for New Users</h1>
+
+        <!-- FORM START -->
+        <form onsubmit="return false;"></form>
+
+            <div class="form-box">
+
+                <div class="input-box">
+                    <label>Email :</label>
+                    <input type="text" id="email" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Create Password :</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="input-box">
+                    <label>Phone Number :</label>
+                    <input type="text" id="phone" required>
+                </div>
+
+                <div class="btns-center">
+                    <button type="button" onclick="handleSignup()">Sign Up</button>
+                </div>
+                <script>
+                document.querySelector("form").addEventListener("submit", function(){
+
+                    const email = document.querySelector("input[type='text']").value;
+                    const password = document.querySelector("input[type='password']").value;
+                    const phone = document.querySelectorAll("input")[2].value;
+
+                    localStorage.setItem("userEmail", email);
+                    localStorage.setItem("userPassword", password);
+                    localStorage.setItem("userPhone", phone);
+
+                });
+                </script>
+                <script src="script.js"></script>
+
+            </div>
+
+        </form>
+        <!-- FORM END -->
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

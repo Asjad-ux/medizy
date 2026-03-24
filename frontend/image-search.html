@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authenticate Medicine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile">👤</div>
+    </div>
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
+        <button class="active" onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content center-content">
+
+        <!-- MAIN CARD -->
+        <div class="auth-card" id="card">
+
+            <!-- STEP 1 -->
+            <div id="uploadUI">
+
+                <img src="assets/camera.png" class="icon">
+
+                <p>
+                    Click the button below to upload your<br>
+                    Medicine Image
+                </p>
+
+                <p class="or">-----OR-----</p>
+
+                <input type="file" id="fileInput" hidden>
+                <button onclick="document.getElementById('fileInput').click()">
+                    Choose Files
+                </button>
+
+            </div>
+
+            <!-- STEP 2 -->
+            <div id="resultUI" style="display:none;">
+
+                <img src="assets/tick.png" class="tick">
+
+                <p class="result-text">
+                    The Uploaded Image is of __________
+                </p>
+
+                <p>Used for</p>
+
+                <div class=""></div>
+                <div class=""></div>
+                <div class=""></div>
+                <div class=""></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function go(page){
+    window.location.href = page;
+}
+
+// upload → switch UI
+document.getElementById("fileInput").addEventListener("change", function(){
+
+    document.getElementById("uploadUI").style.display = "none";
+    document.getElementById("resultUI").style.display = "block";
+
+});
+// 🔹 TIME FUNCTION
+function updateTime(){
+    const now = new Date();
+
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString() + "\n" +
+        day + "\n" +
+        now.toLocaleDateString();
+}
+
+setInterval(updateTime,1000);
+updateTime();
+
+
+</script>
+
+
+</body>
+</html>

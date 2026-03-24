@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prescription Result</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
+
+        <img src="assets/logo.png">
+
+        <div>
+            <h2>Medizy</h2>
+            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <input placeholder="Search Medicines from Nearby Pharmacies">
+        <div class="profile">👤</div>
+    </div>
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <button class="active" onclick="go('prescription-result.html')">Upload Prescription</button>
+        <button onclick="go('image-search.html')">Authenticate Medicine</button>
+        <button onclick="go('price-search.html')">Price Compare</button>
+        <button onclick="go('chatbot.html')">Ask MediBot</button>
+        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
+        <button onclick="go('about.html')">About</button>
+
+        <div class="time-box" id="time"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content prescription-layout">
+
+        <!-- TOP -->
+        <div class="box">
+            <h3>Patients Details</h3>
+
+            <p>Name : __________________________</p>
+            <p>Age: __________________________</p>
+            <p>Gender: __________________________</p>
+        </div>
+
+        <div class="box">
+            <h3>Sufferings and Problems Details</h3>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="box">
+            <h3>Medicines Prescribed</h3>
+
+            <button class="small-btn" onclick="go('price-search.html')">
+                Compare Prices
+            </button>
+        </div>
+
+        <div class="box">
+            <h3>Dosage timings according to the medicines</h3>
+
+            <button class="small-btn">Allow Alarms</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function go(page){
+    window.location.href = page;
+}
+
+// time
+function updateTime(){
+    const now = new Date();
+    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+    document.getElementById("time").innerHTML =
+        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + "<br>" +
+        day + "<br>" +
+        now.toLocaleDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,657 @@
+/* Reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Background */
+.background {
+    height: 100vh;
+    background: url("assets/bg.jpg") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Card */
+.login-card {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Logo */
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+/* Heading */
+h1 {
+    margin: 10px 0;
+    font-size: 26px;
+}
+
+/* Description */
+.subtitle {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Login Title */
+.login-title {
+    margin: 5px 0 2px;
+}
+
+/* Underline Text */
+.login-sub {
+    display: block;
+    font-size: 12px;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+/* Form Box (IMPORTANT) */
+.form-box {
+    background: #bdbdbd;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+/* Input Box */
+.input-box {
+    background: #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: left;
+}
+
+/* Label */
+.input-box label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+/* Input Field */
+.input-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+}
+
+/* Buttons Container */
+.btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Buttons */
+button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #6f6f6f;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+/* Center button (signup ke liye) */
+.btns-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+/* OTP Text */
+.otp-text {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* OTP Boxes Container */
+.otp-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+/* Individual OTP Box */
+.otp-boxes input {
+    width: 40px;
+    height: 45px;
+    text-align: center;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: #e0e0e0;
+}
+
+/* Button Hover */
+button:hover {
+    background: #555;
+}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:url("assets/bg.jpg") no-repeat center/cover;
+}
+
+/* TOP BAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#e6e6e6;
+    padding:10px 20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand img{
+    width:50px;
+}
+
+.brand p{
+    margin:0;
+    font-size:12px;
+}
+
+/* SEARCH */
+.actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.actions input{
+    width:320px;
+    padding:10px;
+    border-radius:12px;
+    border:none;
+    background:#f2f2f2;
+}
+
+.profile{
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* LAYOUT */
+.layout{
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:240px;
+    padding:15px;
+}
+
+.sidebar button{
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(5px);
+    cursor:pointer;
+
+    color:#000;         
+    font-weight:500;    
+}
+.sidebar button:hover{
+    background: rgba(200, 200, 200, 0.6);
+    transition: 0.2s ease;
+    background: rgba(220,220,220,0.7);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.sidebar button.active{
+    background: rgba(220, 220, 220, 0.7);  /* same as hover */
+    color: #000;
+    font-weight: 600;
+}
+/* TIME BOX */
+.time-box{
+    margin-top:20px;
+    padding:15px;
+    background:#6e6e6e;
+    color:white;
+    border-radius:12px;
+    text-align:center;
+    white-space:pre-line;
+}
+
+/* CONTENT */
+.content{
+    flex:1;
+    padding:25px;
+}
+
+.subtitle{
+    margin-top:-5px;
+    font-size:14px;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-top:15px;
+}
+
+.card{
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(6px);
+    padding:20px;
+    border-radius:15px;
+    cursor:pointer;
+}
+
+.card h3{
+    margin:0 0 10px;
+}
+
+.big{
+    grid-column:span 2;
+    height:160px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+/* CHAT */
+.chat-container{
+    margin-top:20px;
+}
+
+.chat-box{
+    height:300px;
+    background:rgba(255,255,255,0.7);
+    border-radius:12px;
+    padding:15px;
+    overflow-y:auto;
+    backdrop-filter:blur(5px);
+}
+
+/* messages */
+.user-msg{
+    text-align:right;
+    background:#4CAF50;
+    color:white;
+    padding:8px;
+    margin:5px;
+    border-radius:10px;
+}
+
+.bot-msg{
+    text-align:left;
+    background:#ddd;
+    padding:8px;
+    margin:5px;
+    border-radius:10px;
+}
+
+/* input */
+.chat-input{
+    display:flex;
+    margin-top:10px;
+}
+
+.chat-input input{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+}
+
+.chat-input button{
+    margin-left:10px;
+    padding:10px 15px;
+}
+/* FULL BG */
+.bg{
+    height:100vh;
+    background:url("assets/bg.jpg") center/cover no-repeat;
+    display:flex;
+}
+
+/* SIDEBAR GLASS */
+.sidebar{
+    width:230px;
+    padding:15px;
+    background:rgba(255,255,255,0.4);
+    backdrop-filter:blur(8px);
+}
+
+/* CENTER AREA */
+.price-container{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* SEARCH BOX */
+.search-wrapper{
+    width:60%;
+    position:relative;
+}
+
+.search-wrapper input{
+    width:100%;
+    padding:15px 50px 15px 20px;
+    border-radius:30px;
+    border:none;
+    font-size:16px;
+    background:rgba(255,255,255,0.9);
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ICON */
+.search-wrapper span{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:18px;
+}
+.topbar{
+    height:80px;
+}
+
+.layout{
+    margin-top:80px;
+}
+
+/* SEARCH TOP */
+.top-search{
+    margin:20px auto;
+    width:60%;
+}
+
+/* HEADER */
+.table-header{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    margin:30px 10%;
+    font-weight:bold;
+    font-size:18px;
+}
+
+/* ROW */
+.price-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    margin:15px 10%;
+    padding:15px 20px;
+    background:rgba(255,255,255,0.85);
+    border-radius:30px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* TEXT ALIGN */
+.price-row span:nth-child(3){
+    text-align:right;
+}
+.register-layout{
+    display:flex;
+    gap:20px;
+}
+
+.register-card{
+    flex:1;
+    background:rgba(255,255,255,0.9);
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.register-logo{
+    width:80px;
+    margin-bottom:10px;
+}
+
+.terms-box{
+    flex:1;
+    background:rgba(255,255,255,0.9);
+    padding:20px;
+    border-radius:20px;
+    overflow:auto;
+}
+
+.submit-btn{
+    margin-top:15px;
+    padding:10px 20px;
+}
+
+.upload-card{
+    text-align:center;
+}
+
+/* center */
+.center-content{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:80vh;
+}
+
+/* card */
+.auth-card{
+    width:400px;
+    background:rgba(255,255,255,0.9);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* camera icon */
+.icon{
+    width:80px;
+    margin-bottom:10px;
+}
+
+/* tick */
+.tick{
+    width:100px;
+    margin-bottom:15px;
+}
+
+/* OR text */
+.or{
+    margin:10px 0;
+    color:#555;
+}
+
+/* button */
+.auth-card button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#777;
+    color:white;
+}
+
+/* result text */
+.result-text{
+    margin:15px 0;
+}
+
+/* lines */
+.lines{
+    height:2px;
+    background:#555;
+    margin:10px 0;
+}
+
+/* layout */
+.prescription-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    padding:20px;
+}
+
+/* box */
+.box{
+    background:rgba(255,255,255,0.9);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* button */
+.small-btn{
+    margin-top:20px;
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    background:#777;
+    color:white;
+}
+/* SEARCH BAR */
+.search-big{
+    display: flex;
+    justify-content: center;
+}
+
+.search-big input{
+    width: 50%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* GRID */
+.pharmacy-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 🔥 2 columns FIX */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* CARD */
+.pharmacy-card{
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.8);   /* 🔥 same glass look */
+    backdrop-filter: blur(6px);
+
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* IMAGE */
+.pharmacy-card img{
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+}
+
+/* TEXT */
+.pharmacy-card h3{
+    font-size: 20px;     /* 🔥 bigger bold title */
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+/* STOCK GREEN */
+.stock{
+    color: green;
+    font-weight: bold;
+}
+
+/* BUTTON */
+.pharmacy-card button{
+    margin-top: 8px;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #5f6368;
+    color: white;
+    cursor: pointer;
+}
+
+.pharmacy-card button:hover{
+    background: #4a4a4a;
+}
+.pharmacy-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.pharmacy-card{
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.pharmacy-card img{
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+}
+
+.pharmacy-info h3{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stock{
+    color: green;
+    font-weight: bold;
+}
+
+.pharmacy-card button{
+    margin-top: 8px;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #5f6368;
+    color: white;
+    cursor: pointer;
+}
+
+.pharmacy-card button:hover{
+    background: #444;
+}
+#toast {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #ff4d4d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999;
+}
