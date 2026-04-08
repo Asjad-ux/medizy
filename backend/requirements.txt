@@ -4,3 +4,9 @@ google-genai
 mysql-connector-python
 python-dotenv
 requests
+pytesseract
+opencv-python
+rapidfuzz
+pillow
+transformers
+torch

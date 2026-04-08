@@ -1,194 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediBot 2.0 | Medizy</title>
-    <link rel="stylesheet" href="style.css">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .user-msg {
-            background: #e1f5fe;
-            align-self: flex-end;
-            padding: 10px;
-            border-radius: 10px 10px 0 10px;
-            margin: 5px;
-            max-width: 80%;
-        }
-
-        .bot-msg {
-            background: #f1f1f1;
-            align-self: flex-start;
-            padding: 10px;
-            border-radius: 10px 10px 10px 0;
-            margin: 5px;
-            max-width: 80%;
-            line-height: 1.5;
-        }
-
-        .chat-box {
-            display: flex;
-            flex-direction: column;
-            height: 400px;
-            overflow-y: auto;
-            padding: 15px;
-            border: 1px solid #ddd;
-            background: #fff;
-        }
-
-        .chat-container {
-            max-width: 600px;
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Ask MediBot</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="topbar">
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-        <img src="assets/logo.png" alt="Logo">
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
-        </div>
+  <div class="brand" onclick="go('dashboard.html')">
+    <div class="brand-icon"><img src="assets/logo.png" onerror="this.parentElement.textContent='＋'"></div>
+    <div class="brand-text"><h2>Medizy</h2><p>AI-powered platform for accurate medicine information.</p></div>
+  </div>
+  <div class="topbar-actions">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="topSearch" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+      <div class="autocomplete-dropdown" id="autocompleteDropdown">
+        <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+        <div id="dropdownList"></div>
+      </div>
     </div>
-
-    <div class="actions">
-        <input id="search" placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile" onclick="go('profile.html')">👤</div>
-    </div>
+    <button class="profile-btn" onclick="go('profile.html')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
 </div>
 
 <div class="layout">
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
 
-    <div class="sidebar">
-        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price-search.html')">Price Compare</button>
-        <button class="active" onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
+  <div class="sidebar">
+    <button class="nav-item" onclick="go('dashboard.html')"><span class="nav-icon">🏠</span>Dashboard</button>
+    <button class="nav-item" onclick="go('prescription-upload.html')"><span class="nav-icon">📋</span>Upload Prescription</button>
+    <button class="nav-item" onclick="go('image-search.html')"><span class="nav-icon">🛡️</span>Authenticate Medicine</button>
+    <button class="nav-item" onclick="go('price-search.html')"><span class="nav-icon">💲</span>Price Compare</button>
+    <button class="nav-item active" onclick="go('chatbot.html')"><span class="nav-icon">🤖</span>Ask MediBot</button>
+    <button class="nav-item" onclick="go('analytics.html')"><span class="nav-icon">📊</span>Analytics</button>
+    <button class="nav-item" onclick="go('pharmacy-register.html')"><span class="nav-icon">🏪</span>Register Pharmacy</button>
+    <button class="nav-item" onclick="go('about.html')"><span class="nav-icon">ℹ️</span>About</button>
+    <div class="time-box">
+      <div class="t-clock" id="clock">--:--:--</div>
+      <div class="t-day" id="day">---</div>
+      <div class="t-date" id="dateEl">---</div>
+    </div>
+  </div>
 
-        <div class="time-box" id="time"></div>
+  <div class="content" style="display:flex;flex-direction:column;">
+    <div class="page-header">
+      <h1>Ask MediBot 2.0</h1>
+      <p>Your AI-powered health assistant connected to Medizy Database</p>
     </div>
 
-    <div class="content">
-        <h1>Ask MediBot 2.0</h1>
-        <p class="subtitle">Your AI-powered health assistant connected to Medizy Database</p>
-
-        <div class="chat-container">
-            <div id="chatBox" class="chat-box">
-                <div class="bot-msg">
-                    👋 Hello! I am Medibot. I can check medicine stock, prices, and guide you on Medizy. How can I help?
-                </div>
-            </div>
-
-            <div class="chat-input">
-                <input id="userInput" type="text" placeholder="Ask about medicines, availability, or features...">
-                <button onclick="sendMessage()">Send</button>
-            </div>
-        </div>
+    <div class="chat-wrap" style="flex:1;min-height:0;">
+      <div id="chatBox" class="chat-box">
+        <div class="bot-msg">👋 Hello! I am Medibot. I can check medicine stock, prices, and guide you on Medizy. How can I help?</div>
+      </div>
+      <div class="chat-input-row">
+        <input id="userInput" type="text" placeholder="Ask What's in your Mind...">
+        <button class="chat-send-btn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        </button>
+        <button class="chat-clear-btn" onclick="clearChatHistory()" title="Clear Chat History">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
+<script src="medizy.js"></script>
 <script>
-// ---------------- NAVIGATION ----------------
-function go(page){
-    window.location.href = page;
-}
+initSearch("topSearch");
+startClock("clock","day","dateEl");
 
-// ---------------- SEARCH ----------------
-document.getElementById("search").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        localStorage.setItem("searchQuery", this.value);
-        window.location.href = "search.html";
-    }
-});
-
-// ---------------- CLOCK ----------------
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
-
-    document.getElementById("time").innerText =
-        now.toLocaleTimeString() + "\n" +
-        day + "\n" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime, 1000);
-updateTime();
-
-// ---------------- USER ID (IMPORTANT 🔥) ----------------
-function generateUserId() {
-    const id = "user_" + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem("user_id", id);
+function getUserId(){
+    let id = localStorage.getItem("user_id");
+    if(!id){ id = "user_" + Math.random().toString(36).substr(2,9); localStorage.setItem("user_id",id); }
     return id;
 }
 
-function getUserId() {
-    return localStorage.getItem("user_id") || generateUserId();
+function getHistoryKey(){
+    return "medibot_history_" + getUserId();
 }
 
-// ---------------- MEDIBOT ----------------
-async function sendMessage() {
-    const input = document.getElementById("userInput");
+function loadChatHistory(){
+    const raw = localStorage.getItem(getHistoryKey());
+    try { return raw ? JSON.parse(raw) : []; } catch(e) { return []; }
+}
+
+function saveChatHistory(history){
+    localStorage.setItem(getHistoryKey(), JSON.stringify(history));
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function appendChatMessage(role, text, save=true){
     const chatBox = document.getElementById("chatBox");
-    const message = input.value.trim();
-
-    if (message === "") return;
-
-    // Show user message
-    chatBox.innerHTML += `<div class="user-msg"><b>You:</b> ${message}</div>`;
-    input.value = "";
-
-    // Smart thinking message
-    let thinkingText = "🤖 Medibot is thinking...";
-    if (message.toLowerCase().includes("medicine") || message.toLowerCase().includes("stock")) {
-        thinkingText = "💊 Checking medicine availability...";
+    const escaped = escapeHtml(text).replace(/\n/g, "<br>");
+    if(role === "user"){
+        chatBox.innerHTML += `<div class="user-msg">${escaped}</div>`;
+    } else {
+        chatBox.innerHTML += `<div class="bot-msg"><b>Medibot:</b><br>${escaped}</div>`;
     }
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    if(save){
+        chatHistory.push({ role, content: text });
+        saveChatHistory(chatHistory);
+    }
+}
+
+const chatHistory = loadChatHistory();
+(function restoreChatHistory(){
+    const chatBox = document.getElementById("chatBox");
+    if(chatHistory.length){
+        chatBox.innerHTML = "";
+        chatHistory.forEach(item => appendChatMessage(item.role, item.content, false));
+    }
+})();
+
+async function sendMessage(){
+    const input   = document.getElementById("userInput");
+    const msg     = input.value.trim();
+    if(!msg) return;
+
+    input.value = "";
+    appendChatMessage("user", msg);
 
     const tempId = "bot-" + Date.now();
-    chatBox.innerHTML += `<div class="bot-msg" id="${tempId}"><i>${thinkingText}</i></div>`;
-
+    let thinking = msg.toLowerCase().includes("medicine") || msg.toLowerCase().includes("stock")
+        ? "💊 Checking medicine availability..." : "🤖 MediBot is thinking...";
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML += `<div class="bot-msg" id="${tempId}"><i>${thinking}</i></div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                message: message,
-                user_id: getUserId()
-            })
+        const res  = await fetch("http://127.0.0.1:5000/chat",{
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ message:msg, user_id:getUserId() })
         });
-
-        const data = await response.json();
+        const data = await res.json();
         const botDiv = document.getElementById(tempId);
-
-        if (data.status === "success") {
-            botDiv.innerHTML = `<b>Medibot:</b><br>${data.reply.replace(/\n/g, "<br>")}`;
+        if(data.status === "success"){
+            botDiv.innerHTML = "<b>Medibot:</b><br>" + escapeHtml(data.reply).replace(/\n/g,"<br>");
+            chatHistory.push({ role: "assistant", content: data.reply });
+            saveChatHistory(chatHistory);
         } else {
             botDiv.innerHTML = "⚠️ Error fetching response.";
         }
-
-    } catch (error) {
-        console.error("Connection Error:", error);
-        document.getElementById(tempId).innerHTML =
-            "❌ Connection Error: Make sure Flask server is running on port 5000.";
+    } catch(err){
+        const botDiv = document.getElementById(tempId);
+        if(botDiv) botDiv.innerHTML = "❌ Connection Error: Make sure Flask server is running on port 5000.";
     }
-
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ENTER key support
-document.getElementById("userInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") sendMessage();
-});
-</script>
+document.getElementById("userInput").addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
 
+function clearChatHistory(){
+    if(confirm("Are you sure you want to clear the chat history? This cannot be undone.")){
+        chatHistory.length = 0;
+        saveChatHistory(chatHistory);
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = '<div class="bot-msg">👋 Hello! I am Medibot. I can check medicine stock, prices, and guide you on Medizy. How can I help?</div>';
+    }
+}
+</script>
 </body>
 </html>

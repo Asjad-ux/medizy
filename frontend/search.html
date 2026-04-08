@@ -1,227 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Search Medicines</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Search Results</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-        <img src="assets/logo.png">
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
-        </div>
+  <div class="brand" onclick="go('dashboard.html')">
+    <div class="brand-icon"><img src="assets/logo.png" onerror="this.parentElement.textContent='＋'"></div>
+    <div class="brand-text"><h2>Medizy</h2><p>AI-powered platform for accurate medicine information.</p></div>
+  </div>
+  <div class="topbar-actions">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="topSearch" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+      <div class="autocomplete-dropdown" id="autocompleteDropdown">
+        <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+        <div id="dropdownList"></div>
+      </div>
     </div>
-
-    <div class="actions">
-        <input id="searchInput" placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile" onclick="go('profile.html')">👤</div>
-    </div>
+    <button class="profile-btn" onclick="go('profile.html')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
 </div>
 
-<!-- MAIN -->
 <div class="layout">
+  <div class="sidebar">
+    <button class="nav-item" onclick="go('dashboard.html')"><span class="nav-icon">🏠</span>Dashboard</button>
+    <button class="nav-item" onclick="go('prescription-upload.html')"><span class="nav-icon">📋</span>Upload Prescription</button>
+    <button class="nav-item" onclick="go('image-search.html')"><span class="nav-icon">🛡️</span>Authenticate Medicine</button>
+    <button class="nav-item" onclick="go('price-search.html')"><span class="nav-icon">💲</span>Price Compare</button>
+    <button class="nav-item" onclick="go('chatbot.html')"><span class="nav-icon">🤖</span>Ask MediBot</button>
+    <button class="nav-item" onclick="go('analytics.html')"><span class="nav-icon">📊</span>Analytics</button>
+    <button class="nav-item" onclick="go('pharmacy-register.html')"><span class="nav-icon">🏪</span>Register Pharmacy</button>
+    <button class="nav-item" onclick="go('about.html')"><span class="nav-icon">ℹ️</span>About</button>
+    <div class="time-box">
+      <div class="t-clock" id="clock">--:--:--</div>
+      <div class="t-day" id="day">---</div>
+      <div class="t-date" id="dateEl">---</div>
+    </div>
+  </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <button onclick="go('prescription-result.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-
-        <div class="time-box" id="time"></div>
+  <div class="content">
+    <div class="page-header">
+      <h1>Search Results</h1>
+      <p id="queryLabel">Showing results for nearby pharmacies</p>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-
-        <!-- SEARCH BAR -->
-        <div class="search-big">
-            <input placeholder="Search Medicines..." id="bigSearch">
-            
-        </div>
-
-        <!-- 🔥 SORT SWITCH -->
-        <div style="margin:20px 0;">
-            <label>Sort by: </label>
-            <button id="priceBtn" onclick="setSort('price')" style="background:#4CAF50;color:white;">Price</button>
-            <button id="distanceBtn" onclick="setSort('distance')">Distance</button>
-        </div>
-
-        <!-- RESULTS -->
-        <div class="pharmacy-grid" id="results"></div>
-
+    <!-- Search + Sort bar -->
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
+      <div class="search-big-wrap" style="margin-bottom:0;flex:1;max-width:400px;">
+        <input id="bigSearch" placeholder="Search another medicine...">
+        <span class="s-icon">🔍</span>
+      </div>
+      <div class="sort-bar" style="margin-bottom:0;">
+        <label>Sort by:</label>
+        <button id="priceBtn" class="sort-btn active" onclick="setSort('price')">💰 Price</button>
+        <button id="distBtn"  class="sort-btn"        onclick="setSort('distance')">📍 Distance</button>
+      </div>
     </div>
+
+    <div class="pharmacy-grid" id="results">
+      <p style="color:var(--text-muted);">Loading results...</p>
+    </div>
+  </div>
 </div>
 
+<script src="medizy.js"></script>
 <script>
+initSearch("topSearch");
+startClock("clock","day","dateEl");
 
-// 🔁 NAVIGATION
-function go(page){
-    window.location.href = page;
-}
-
-// ⏰ TIME
-function updateTime(){
-    const now = new Date();
-    document.getElementById("time").innerHTML =
-        now.toLocaleTimeString() + "<br>" +
-        now.toLocaleDateString(undefined, { weekday: 'long' }) + "<br>" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
-
-// 🔍 GET QUERY
 const params = new URLSearchParams(window.location.search);
-const query = params.get("q");
-console.log("Query:", query);
+const query  = params.get("q") || localStorage.getItem("searchQuery") || "";
+document.getElementById("queryLabel").textContent = query ? `Showing results for "${query}"` : "Showing results for nearby pharmacies";
+document.getElementById("bigSearch").value = query;
 
-// 🔥 GLOBAL VARIABLES
-let allData = [];
-let sortType = "price";
-let userLat = null;
-let userLng = null;
-
-// 🔎 SEARCH BAR (TOP)
-document.getElementById("searchInput").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        window.location.href = `search.html?q=${this.value}`;
-    }
+document.getElementById("bigSearch").addEventListener("keypress", e => {
+    if(e.key==="Enter") window.location.href = `search.html?q=${encodeURIComponent(document.getElementById("bigSearch").value)}`;
+});
+document.getElementById("topSearch").addEventListener("keypress", e => {
+    if(e.key==="Enter") window.location.href = `search.html?q=${encodeURIComponent(document.getElementById("topSearch").value)}`;
 });
 
-// MIDDLE SEARCH BAR 
-document.getElementById("bigSearch").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        window.location.href = `search.html?q=${this.value}`;
-    }
-});
+let allData=[], sortType="price", userLat=28.5007, userLng=77.2914;
 
-// 📍 GET USER LOCATION
 navigator.geolocation.getCurrentPosition(
-    (pos) => {
-        userLat = pos.coords.latitude;
-        userLng = pos.coords.longitude;
-        fetchResults();
-    },
-    (error) => {
-        console.log("Location denied, using default");
-
-        // default location (Delhi)
-        userLat = 28.500720979149005;
-        userLng = 77.29136230275058;
-
-        fetchResults(); // 🔥 IMPORTANT
-    }
+    p => { userLat=p.coords.latitude; userLng=p.coords.longitude; fetchResults(); },
+    ()  => fetchResults()
 );
 
-// 🚀 FETCH DATA
-async function fetchResults() {
+async function fetchResults(){
     try {
-        const res = await fetch(`http://localhost:3000/search?q=${query}`);
-        const data = await res.json();
-
-        allData = data;
+        const res  = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`);
+        allData    = await res.json();
         applySorting();
-
-    } catch (error) {
-        console.error("Fetch Error:", error);
+    } catch(err){
+        document.getElementById("results").innerHTML = '<p style="color:var(--red);">⚠️ Server not reachable. Make sure the backend is running.</p>';
     }
 }
 
-// 📏 DISTANCE CALCULATION
-function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-
-    const a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
+function getDistance(lat1,lon1,lat2,lon2){
+    const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+    const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+    return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 
-// 🔥 APPLY SORTING
-function applySorting() {
+function applySorting(){
     let data = [...allData];
-
-    data.forEach(item => {
-        item.distance = getDistance(userLat, userLng, item.latitude, item.longitude);
-    });
-
-    if(sortType === "price"){
-        data.sort((a,b) => a.price - b.price);
-    } else {
-        data.sort((a,b) => a.distance - b.distance);
-    }
-
+    data.forEach(item => item.distance = getDistance(userLat,userLng,item.latitude,item.longitude));
+    data.sort((a,b) => sortType==="price" ? a.price-b.price : a.distance-b.distance);
     displayResults(data.slice(0,6));
 }
 
-// 🎛️ SWITCH BUTTON
 function setSort(type){
-    sortType = type;
-
-    document.getElementById("priceBtn").style.background =
-        type === "price" ? "#4CAF50" : "";
-
-    document.getElementById("distanceBtn").style.background =
-        type === "distance" ? "#4CAF50" : "";
-
+    sortType=type;
+    document.getElementById("priceBtn").className = "sort-btn"+(type==="price"?" active":"");
+    document.getElementById("distBtn").className  = "sort-btn"+(type==="distance"?" active":"");
     applySorting();
 }
 
-// 🎨 DISPLAY
 function displayResults(data){
-    const container = document.getElementById("results");
-    container.innerHTML = "";
-
-    if(data.length === 0){
-        container.innerHTML = "<h3>No medicines found </h3>";
-        return;
-    }
-
-    data.forEach(item => {
-        const card = `
-        <div class="pharmacy-card">
-            <img src="${item.image_url}" alt="">
-            <div class="pharmacy-info">
-                <h3>${item.name}</h3>
-                <p>${item.medicine_name} – <span class="stock">In Stock</span></p>
-                <p>Price – ₹${item.price}</p>
-                <p>Distance – ${item.distance.toFixed(2)} km</p>
-                <button onclick="getDirection(${item.latitude}, ${item.longitude})">
-                    Get Directions
-                </button>
-            </div>
+    const c = document.getElementById("results");
+    if(!data.length){ c.innerHTML='<h3 style="color:var(--text-muted);">No medicines found nearby 😕</h3>'; return; }
+    c.innerHTML = data.map(item => `
+    <div class="pharmacy-card">
+        <img src="${item.image_url||''}" alt="${item.name}" onerror="this.src='';this.style.background='#EFF6FF';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center';">
+        <div class="pharmacy-info">
+            <h3>${item.name}</h3>
+            <p>${item.medicine_name} – <span class="stock">In Stock</span></p>
+            <p>Price – ₹${item.price}</p>
+            <p>Distance – ${item.distance.toFixed(2)} km</p>
+            <button class="dir-btn" onclick="getDirection(${item.latitude},${item.longitude})">📍 Get Directions</button>
         </div>
-        `;
-        container.innerHTML += card;
-    });
+    </div>`).join("");
 }
 
-// 🗺️ MAP
-function getDirection(lat, lng){
-    navigator.geolocation.getCurrentPosition(pos => {
-        const userLat = pos.coords.latitude;
-        const userLng = pos.coords.longitude;
-
-        const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}`;
-        window.open(url, "_blank");
+function getDirection(lat,lng){
+    navigator.geolocation.getCurrentPosition(p => {
+        window.open(`https://www.google.com/maps/dir/?api=1&origin=${p.coords.latitude},${p.coords.longitude}&destination=${lat},${lng}`,"_blank");
+    }, () => {
+        window.open(`https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}`,"_blank");
     });
 }
-
 </script>
-
 </body>
 </html>

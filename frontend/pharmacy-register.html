@@ -1,167 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register Pharmacy</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Register Pharmacy</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="topbar">
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-
-        <img src="assets/logo.png">
-
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
-        </div>
-
+  <div class="brand" onclick="go('dashboard.html')">
+    <div class="brand-icon"><img src="assets/logo.png" onerror="this.parentElement.textContent='＋'"></div>
+    <div class="brand-text"><h2>Medizy</h2><p>AI-powered platform for accurate medicine information.</p></div>
+  </div>
+  <div class="topbar-actions">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="topSearch" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+      <div class="autocomplete-dropdown" id="autocompleteDropdown">
+        <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+        <div id="dropdownList"></div>
+      </div>
     </div>
-
-    <div class="actions">
-        <input placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile" onclick="go('profile.html')">👤</div>
-    </div>
+    <button class="profile-btn" onclick="go('profile.html')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
 </div>
 
 <div class="layout">
+  <div class="sidebar">
+    <button class="nav-item" onclick="go('dashboard.html')"><span class="nav-icon">🏠</span>Dashboard</button>
+    <button class="nav-item" onclick="go('prescription-upload.html')"><span class="nav-icon">📋</span>Upload Prescription</button>
+    <button class="nav-item" onclick="go('image-search.html')"><span class="nav-icon">🛡️</span>Authenticate Medicine</button>
+    <button class="nav-item" onclick="go('price-search.html')"><span class="nav-icon">💲</span>Price Compare</button>
+    <button class="nav-item" onclick="go('chatbot.html')"><span class="nav-icon">🤖</span>Ask MediBot</button>
+    <button class="nav-item" onclick="go('analytics.html')"><span class="nav-icon">📊</span>Analytics</button>
+    <button class="nav-item active" onclick="go('pharmacy-register.html')"><span class="nav-icon">🏪</span>Register Pharmacy</button>
+    <button class="nav-item" onclick="go('about.html')"><span class="nav-icon">ℹ️</span>About</button>
+    <div class="time-box">
+      <div class="t-clock" id="clock">--:--:--</div>
+      <div class="t-day" id="day">---</div>
+      <div class="t-date" id="dateEl">---</div>
+    </div>
+  </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price-search.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button class="active" onclick="go('pharmacy-upload.html')">Register your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-        <div class="time-box" id="time"></div>
+  <div class="content">
+    <div class="page-header">
+      <h1>Register Your Pharmacy</h1>
+      <p>Join the Medizy network and reach more customers</p>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content register-layout">
-
-        <!-- LEFT FORM -->
-        <div class="register-card">
-
-            <img src="assets/logo.png" class="register-logo">
-
-            <h2>Register your Pharmacy</h2>
-
-            <div class="form-box">
-
-                <div class="input-box">
-                    <label>Pharmacy Name :</label>
-                    <input type="text" id="name">
-                </div>
-
-                <div class="input-box">
-                    <label>Address :</label>
-                    <input type="text" id="address">
-                </div>
-
-                <div class="input-box">
-                    <label>GST No. :</label>
-                    <input type="text" id="gst">
-                </div>
-
-                <button class="submit-btn" onclick="registerPharmacy()">
-                    Submit
-                </button>
-
-            </div>
-
+    <div class="register-layout" style="height:calc(100% - 70px);">
+      <!-- FORM -->
+      <div class="register-form-card">
+        <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;margin-bottom:16px;box-shadow:0 4px 16px rgba(37,99,235,0.28);">
+          <img src="assets/logo.png" style="width:40px;height:40px;object-fit:contain;" onerror="this.parentElement.textContent='🏪'">
         </div>
-
-        <!-- RIGHT TERMS -->
-        <div class="terms-box">
-
-            <h3>Medizy Pharmacy Registration – Terms & Conditions</h3>
-
-            <p><b>Valid License Requirement</b><br>
-            The pharmacy must possess a valid and active drug license.</p>
-
-            <p><b>Accurate Business Information</b><br>
-            All submitted details must be true and up to date.</p>
-
-            <p><b>Google Maps Presence</b><br>
-            Pharmacy must be visible on Google Maps.</p>
-
-            <p><b>Authenticity of Medicines</b><br>
-            Only genuine medicines allowed.</p>
-
-            <p><b>Prescription Compliance</b><br>
-            Follow prescription rules strictly.</p>
-
-            <p><b>Stock & Availability Updates</b><br>
-            Maintain real-time stock updates.</p>
-
-            <p><b>Right to Suspension</b><br>
-            Medizy can suspend accounts if rules violated.</p>
-
+        <h2>Register your Pharmacy</h2>
+        <div style="width:100%;">
+          <div class="reg-field"><label>Pharmacy Name :</label><input type="text" id="name" placeholder="Apollo Pharmacy, Delhi"></div>
+          <div class="reg-field"><label>Address :</label><input type="text" id="address" placeholder="123, Main Street, Delhi"></div>
+          <div class="reg-field"><label>GST No. :</label><input type="text" id="gst" placeholder="22AAAAA0000A1Z5"></div>
+          <button class="btn-blue" style="width:100%;margin-top:8px;" onclick="registerPharmacy()">Submit Registration →</button>
         </div>
+      </div>
 
+      <!-- TERMS -->
+      <div class="terms-card">
+        <h3>Medizy Pharmacy Registration – Terms &amp; Conditions</h3>
+        <div class="term-item"><strong>Valid License Requirement</strong><p>The pharmacy must possess a valid and active drug license issued by the appropriate authority.</p></div>
+        <div class="term-item"><strong>Accurate Business Information</strong><p>All submitted details, including pharmacy name, address, and contact information, must be true and up to date.</p></div>
+        <div class="term-item"><strong>Google Maps Presence*</strong><p>The pharmacy must be listed and publicly visible on Google Maps with correct location details.</p></div>
+        <div class="term-item"><strong>Authenticity of Medicines</strong><p>Only genuine, approved, and legally sourced medicines may be sold through the platform.</p></div>
+        <div class="term-item"><strong>Prescription Compliance</strong><p>Prescription-only medicines must not be dispensed without a valid prescription from a licensed medical practitioner.</p></div>
+        <div class="term-item"><strong>Stock &amp; Availability Updates</strong><p>The pharmacy is responsible for maintaining accurate and real-time updates of medicine availability.</p></div>
+        <div class="term-item"><strong>Right to Suspension or Termination</strong><p>Medizy reserves the right to suspend or terminate any pharmacy account found violating these terms.</p></div>
+      </div>
     </div>
-
+  </div>
 </div>
 
+<script src="medizy.js"></script>
 <script>
-function go(page){ window.location.href = page; }
+initSearch("topSearch");
+startClock("clock","day","dateEl");
 
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
-
-    document.getElementById("time").innerText =
-        now.toLocaleTimeString() + "\n" +
-        day + "\n" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
-</script>
-
-<script>
-
-function go(page){ window.location.href = page; }
-
-// 🔥 THIS FUNCTION MUST BE HERE
-async function registerPharmacy() {
-
-    const name = document.getElementById("name").value;
-    const address = document.getElementById("address").value;
-    const gst = document.getElementById("gst").value;
-
-    if (!name || !address || !gst) {
-        alert("Please fill all fields");
-        return;
-    }
-
+async function registerPharmacy(){
+    const name    = document.getElementById("name").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const gst     = document.getElementById("gst").value.trim();
+    if(!name||!address||!gst){ alert("Please fill all fields"); return; }
     try {
-        const res = await fetch("http://localhost:3000/api/register-pharmacy", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, address, gst })
+        const res  = await fetch("http://localhost:3000/api/register-pharmacy",{
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({name,address,gst})
         });
-
         const data = await res.json();
-
-        if (data.success) {
-            alert("Registered!");
-            window.location.href = "pharmacy-upload.html";
-        } else {
-            alert("Error saving data");
-        }
-
-    } catch (err) {
-        console.log(err);
-        alert("Server error");
-    }
+        if(data.success){ alert("Registered!"); go("pharmacy-upload.html"); }
+        else alert("Error saving data");
+    } catch(err){ alert("Server not reachable"); }
 }
-
 </script>
-
 </body>
 </html>

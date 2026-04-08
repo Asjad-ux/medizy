@@ -1,170 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Analytics</title>
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Analytics</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-
-        <img src="assets/logo.png">
-
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
-        </div>
-
+  <div class="brand" onclick="go('dashboard.html')">
+    <div class="brand-icon"><img src="assets/logo.png" onerror="this.parentElement.textContent='＋'"></div>
+    <div class="brand-text"><h2>Medizy</h2><p>AI-powered platform for accurate medicine information.</p></div>
+  </div>
+  <div class="topbar-actions">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="topSearch" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+      <div class="autocomplete-dropdown" id="autocompleteDropdown">
+        <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+        <div id="dropdownList"></div>
+      </div>
     </div>
-
-    <div class="actions">
-        <input id="search" placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile" onclick="go('profile.html')">👤</div>
-    </div>
-
+    <button class="profile-btn" onclick="go('profile.html')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
 </div>
 
-<!-- MAIN -->
 <div class="layout">
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+  <div class="sidebar">
+    <button class="nav-item" onclick="go('dashboard.html')"><span class="nav-icon">🏠</span>Dashboard</button>
+    <button class="nav-item" onclick="go('prescription-upload.html')"><span class="nav-icon">📋</span>Upload Prescription</button>
+    <button class="nav-item" onclick="go('image-search.html')"><span class="nav-icon">🛡️</span>Authenticate Medicine</button>
+    <button class="nav-item" onclick="go('price-search.html')"><span class="nav-icon">💲</span>Price Compare</button>
+    <button class="nav-item" onclick="go('chatbot.html')"><span class="nav-icon">🤖</span>Ask MediBot</button>
+    <button class="nav-item active" onclick="go('analytics.html')"><span class="nav-icon">📊</span>Analytics<span class="nav-badge">New</span></button>
+    <button class="nav-item" onclick="go('pharmacy-register.html')"><span class="nav-icon">🏪</span>Register Pharmacy</button>
+    <button class="nav-item" onclick="go('about.html')"><span class="nav-icon">ℹ️</span>About</button>
+    <div class="time-box">
+      <div class="t-clock" id="clock">--:--:--</div>
+      <div class="t-day" id="day">---</div>
+      <div class="t-date" id="dateEl">---</div>
+    </div>
+  </div>
 
-        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-
-        <div class="time-box" id="time"></div>
-
+  <div class="content">
+    <div class="page-header">
+      <h1>Analytics</h1>
+      <p>Insights &amp; trends from user activity</p>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-
-        <h1>Analytics</h1>
-        <p class="subtitle">Insights & trends from user activity</p>
-
-        <div class="cards">
-
-            <!-- PIE CHART -->
-            <div class="card">
-                <h3>Medicine Category Distribution</h3>
-                <canvas id="pieChart"></canvas>
-            </div>
-
-            <!-- BAR GRAPH -->
-            <div class="card">
-                <h3>Daily Medicine Searches</h3>
-                <canvas id="barChart"></canvas>
-            </div>
-
-            <!-- EXTRA -->
-            <div class="card big">
-                <h3>Safety Score Distribution</h3>
-                <canvas id="pie2"></canvas>
-            </div>
-
-            <div class="card big">
-                <h3>Prescription vs Search Usage</h3>
-                <canvas id="bar2"></canvas>
-            </div>
-
-        </div>
-
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Medicine Category Distribution</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Daily Medicine Searches</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Safety Score Distribution</h3>
+        <canvas id="pie2"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Prescription vs Search Usage</h3>
+        <canvas id="bar2"></canvas>
+      </div>
     </div>
-
+  </div>
 </div>
 
+<script src="medizy.js"></script>
 <script>
+initSearch("topSearch");
+startClock("clock","day","dateEl");
 
-// navigation
-function go(page){
-    window.location.href = page;
-}
+const chartDefaults = {
+    plugins:{ legend:{ labels:{ font:{ family:"DM Sans", size:12 }, color:"#64748B" } } }
+};
 
-// search
-document.getElementById("search").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        localStorage.setItem("searchQuery", this.value);
-        window.location.href = "search.html";
-    }
+new Chart(document.getElementById("pieChart"),{
+    type:'doughnut',
+    data:{ labels:["Fever","Pain","Cold","Other"],
+           datasets:[{ data:[30,25,20,25],
+             backgroundColor:["#2563EB","#0EA5E9","#22C55E","#F59E0B"],
+             borderWidth:0, hoverOffset:8 }] },
+    options:{ ...chartDefaults, cutout:"60%" }
 });
 
-// time
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
-
-    document.getElementById("time").innerText =
-        now.toLocaleTimeString() + "\n" +
-        day + "\n" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
-
-
-// 📊 PIE CHART
-new Chart(document.getElementById("pieChart"), {
-    type: 'pie',
-    data: {
-        labels: ["Fever", "Pain", "Cold", "Other"],
-        datasets: [{
-            data: [30, 25, 20, 25],
-            backgroundColor: ["#4CAF50","#2196F3","#FFC107","#FF5722"]
-        }]
-    }
+new Chart(document.getElementById("barChart"),{
+    type:'bar',
+    data:{ labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+           datasets:[{ label:"Search Count", data:[12,19,8,15,10,20,14],
+             backgroundColor:"rgba(37,99,235,0.75)", borderRadius:8, borderSkipped:false }] },
+    options:{ ...chartDefaults, scales:{ x:{ grid:{display:false} }, y:{ grid:{color:"rgba(37,99,235,0.06)"} } } }
 });
 
-// 📊 BAR CHART
-new Chart(document.getElementById("barChart"), {
-    type: 'bar',
-    data: {
-        labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-        datasets: [{
-            label: "Search Count",
-            data: [12,19,8,15,10,20,14],
-            backgroundColor: "#2196F3"
-        }]
-    }
+new Chart(document.getElementById("pie2"),{
+    type:'doughnut',
+    data:{ labels:["Safe","Moderate","Risky"],
+           datasets:[{ data:[50,30,20],
+             backgroundColor:["#22C55E","#F59E0B","#EF4444"],
+             borderWidth:0, hoverOffset:8 }] },
+    options:{ ...chartDefaults, cutout:"60%" }
 });
 
-// EXTRA PIE
-new Chart(document.getElementById("pie2"), {
-    type: 'pie',
-    data: {
-        labels: ["Safe","Moderate","Risky"],
-        datasets: [{
-            data: [50,30,20],
-            backgroundColor: ["green","orange","red"]
-        }]
-    }
+new Chart(document.getElementById("bar2"),{
+    type:'bar',
+    data:{ labels:["Prescription","Search"],
+           datasets:[{ label:"Usage", data:[40,60],
+             backgroundColor:["rgba(37,99,235,0.75)","rgba(14,165,233,0.75)"],
+             borderRadius:8, borderSkipped:false }] },
+    options:{ ...chartDefaults, scales:{ x:{ grid:{display:false} }, y:{ grid:{color:"rgba(37,99,235,0.06)"} } } }
 });
-
-// EXTRA BAR
-new Chart(document.getElementById("bar2"), {
-    type: 'bar',
-    data: {
-        labels: ["Prescription","Search"],
-        datasets: [{
-            label: "Usage",
-            data: [40,60],
-            backgroundColor: ["#673AB7","#009688"]
-        }]
-    }
-});
-
 </script>
-
 </body>
 </html>

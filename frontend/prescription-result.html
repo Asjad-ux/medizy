@@ -1,97 +1,699 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Prescription Result</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Results - Medizy</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .results-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text, #0F172A);
+        }
+
+        .page-header p {
+            font-size: 13px;
+            color: var(--text-muted, #64748B);
+        }
+
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 12px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-green { background: rgba(34, 197, 94, 0.1); color: #22C55E; }
+        .badge-blue { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
+        .badge-yellow { background: rgba(250, 204, 21, 0.1); color: #FACC15; }
+        .badge-red { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+
+        .warning-box {
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #FACC15;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted, #64748B);
+            margin-bottom: 12px;
+            margin-top: 24px;
+        }
+
+        .ocr-text {
+            background: var(--bg, #f5f5f5);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 10px;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+
+        .medicine-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .medicine-pill {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2563EB;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .medicine-pill:hover {
+            background: rgba(37, 99, 235, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .medicine-card {
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border, #ddd);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text, #0F172A);
+        }
+
+        .stock-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .stock-badge.yes { background: rgba(34, 197, 94, 0.1); color: #22C55E; }
+        .stock-badge.no { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+
+        .card-body {
+            padding: 14px 16px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .info-field {
+            padding: 10px;
+            background: var(--bg, #f5f5f5);
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted, #64748B);
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text, #0F172A);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .info-value.highlight-green { color: #22C55E; }
+        .info-value.highlight-blue { color: #2563EB; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text, #0F172A);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--text-muted, #64748B);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1D4ED8;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border, #ddd);
+            color: var(--text-muted, #64748B);
+        }
+
+        .btn-outline:hover {
+            border-color: #2563EB;
+            color: #2563EB;
+        }
+
+        .bot-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            max-width: 320px;
+            background: #2563EB;
+            color: white;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 999;
+            display: none;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .bot-toast.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .price-modal {
+            width: min(100%, 760px);
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(15, 23, 42, 0.18);
+        }
+
+        .price-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            background: #2563EB;
+            color: white;
+        }
+
+        .price-modal-header h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.2;
+        }
+
+        .price-modal-close {
+            border: none;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .price-modal-body {
+            padding: 18px 22px 22px;
+            max-height: min(70vh, 520px);
+            overflow-y: auto;
+        }
+
+        .price-modal-loader,
+        .price-modal-error {
+            padding: 16px;
+            text-align: center;
+            color: var(--text-muted, #64748B);
+            font-size: 14px;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+        }
+
+        .price-table th,
+        .price-table td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .price-table th {
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .price-table td:last-child {
+            text-align: right;
+        }
+
+        .price-table .price-best {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .price-link button {
+            border: none;
+            background: #2563EB;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .price-link button:hover {
+            background: #1d4ed8;
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="topbar">
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-
-        <img src="assets/logo.png">
-
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+    <div class="topbar">
+        <div class="brand" onclick="go('dashboard.html')">
+            <div class="brand-icon">＋</div>
+            <div class="brand-text">
+                <h2>Medizy</h2>
+                <p>AI-powered platform for accurate medicine information.</p>
+            </div>
         </div>
-
-    </div>
-
-    <div class="actions">
-        <input placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile">👤</div>
-    </div>
-</div>
-
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <button class="active" onclick="go('prescription-result.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price-search.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-
-        <div class="time-box" id="time"></div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content prescription-layout">
-
-        <!-- TOP -->
-        <div class="box">
-            <h3>Patients Details</h3>
-
-            <p>Name : __________________________</p>
-            <p>Age: __________________________</p>
-            <p>Gender: __________________________</p>
-        </div>
-
-        <div class="box">
-            <h3>Sufferings and Problems Details</h3>
-        </div>
-
-        <!-- BOTTOM -->
-        <div class="box">
-            <h3>Medicines Prescribed</h3>
-
-            <button class="small-btn" onclick="go('price-search.html')">
-                Compare Prices
+        <div class="topbar-actions">
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+            <div class="search-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+                <div class="autocomplete-dropdown" id="autocompleteDropdown">
+                    <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+                    <div id="dropdownList"></div>
+                </div>
+            </div>
+            <button class="profile-btn" onclick="go('profile.html')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             </button>
         </div>
-
-        <div class="box">
-            <h3>Dosage timings according to the medicines</h3>
-
-            <button class="small-btn">Allow Alarms</button>
-        </div>
-
     </div>
 
-</div>
+    <div class="layout">
+        <!-- MOBILE MENU OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
+        <div class="sidebar">
+            <button class="nav-item" onclick="go('dashboard.html')">
+              <span class="nav-icon">🏠</span>Dashboard
+            </button>
+            <button class="nav-item active" onclick="go('prescription-upload.html')">
+                <span class="nav-icon">📋</span> Upload Prescription
+            </button>
+            <button class="nav-item" onclick="go('image-search.html')">
+                <span class="nav-icon">🛡️</span> Authenticate Medicine
+            </button>
+            <button class="nav-item" onclick="go('price-search.html')">
+                <span class="nav-icon">💲</span> Price Compare
+            </button>
+            <button class="nav-item" onclick="go('chatbot.html')">
+                <span class="nav-icon">🤖</span> Ask MediBot
+            </button>
+            <button class="nav-item" onclick="go('analytics.html')">
+              <span class="nav-icon">📊</span>Analytics
+            </button>
+            <button class="nav-item" onclick="go('pharmacy-register.html')">
+              <span class="nav-icon">🏪</span>Register Pharmacy
+            </button>
+            <button class="nav-item" onclick="go('about.html')">
+                <span class="nav-icon">ℹ️</span> About
+            </button>
+            <div class="time-box">
+                <div class="clock" id="clock">--:--:--</div>
+                <div class="day" id="day">---</div>
+                <div class="date" id="dateEl">---</div>
+            </div>
+        </div>
 
-<script>
-function go(page){
-    window.location.href = page;
-}
+        <div class="content">
+            <div class="results-container" id="resultsContainer"></div>
+        </div>
+    </div>
 
-// time
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+    <div class="modal-overlay" id="priceModal">
+        <div class="price-modal">
+            <div class="price-modal-header">
+                <h2 id="modalTitle">Price Compare</h2>
+                <button class="price-modal-close" onclick="closePriceModal()">✕</button>
+            </div>
+            <div class="price-modal-body" id="priceModalBody">
+                <div class="price-modal-loader" id="modalLoader">Loading price comparison...</div>
+            </div>
+        </div>
+    </div>
 
-    document.getElementById("time").innerHTML =
-        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + "<br>" +
-        day + "<br>" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
-</script>
+    <script src="medizy.js"></script>
+    <script>
+        // Initialize
+        initSearch("searchInput");
+        startClock("clock", "day", "dateEl");
 
+        // Load and render results
+        window.addEventListener("DOMContentLoaded", function() {
+            const raw = sessionStorage.getItem("prescriptionResult");
+            
+            if (!raw) {
+                renderNoData();
+                return;
+            }
+
+            try {
+                const data = JSON.parse(raw);
+                renderResults(data);
+            } catch (e) {
+                console.error("Failed to parse results:", e);
+                renderNoData();
+            }
+        });
+
+        function renderNoData() {
+            document.getElementById("resultsContainer").innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h2>No Results Found</h2>
+                    <p>Please upload a prescription to see analysis results here.</p>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="go('prescription-upload.html')">
+                            ← Upload Prescription
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderResults(data) {
+            const medicines = data.medicines_found || [];
+            const results = data.results || [];
+            const confidence = data.ocr_confidence || 0;
+            const text = data.extracted_text || "";
+
+            const confBadgeClass = confidence >= 80 ? "badge-green" : confidence >= 60 ? "badge-yellow" : "badge-red";
+            const confLabel = confidence >= 80 ? "High OCR" : confidence >= 60 ? "Medium OCR" : "Low OCR";
+
+            let html = `
+                <div class="page-header">
+                    <h1>Prescription Analysis Results</h1>
+                    <p>AI-extracted medicines and pharmacy availability</p>
+                </div>
+
+                <div class="status-bar">
+                    <div class="badge ${confBadgeClass}">📊 ${confidence}% — ${confLabel}</div>
+                    <div class="badge badge-blue">💊 ${medicines.length} Medicine${medicines.length !== 1 ? 's' : ''} Found</div>
+                </div>
+            `;
+
+            if (data.warning) {
+                html += `<div class="warning-box">⚠️ ${data.warning}</div>`;
+            }
+
+            // OCR Text
+            if (text) {
+                html += `
+                    <div class="section-title">📄 Extracted Text</div>
+                    <div class="ocr-text">${text}</div>
+                `;
+            }
+
+            // Medicine Pills
+            if (medicines.length > 0) {
+                html += `<div class="section-title">💊 Detected Medicines</div><div class="medicine-pills">`;
+                medicines.forEach(med => {
+                    html += `<div class="medicine-pill" onclick="comparePrice(${JSON.stringify(med)})">${med}</div>`;
+                });
+                html += `</div>`;
+            }
+
+            // Bot summary
+            // Bot popup will be shown after rendering
+
+            // Results
+            if (results.length > 0) {
+                html += `<div class="section-title">🏪 Pharmacy Availability</div>`;
+                
+                results.forEach(r => {
+                    const stockClass = r.in_stock ? "yes" : "no";
+                    const stockText = r.in_stock ? "✓ In Stock" : "✕ Out of Stock";
+
+                    html += `
+                        <div class="medicine-card">
+                            <div class="card-header">
+                                <div class="card-title">${r.medicine}</div>
+                                <div class="stock-badge ${stockClass}">${stockText}</div>
+                            </div>
+                            <div class="card-body">
+                    `;
+
+                    if (r.in_stock) {
+                        html += `
+                            <div class="info-row">
+                                <div class="info-field">
+                                    <div class="info-label">💰 Cheapest Store</div>
+                                    <div class="info-value">${r.cheapest_store || 'N/A'}</div>
+                                </div>
+                                <div class="info-field">
+                                    <div class="info-label">Price</div>
+                                    <div class="info-value highlight-green">₹${r.cheapest_price ? r.cheapest_price.toFixed(2) : 'N/A'}</div>
+                                </div>
+                            </div>
+                        `;
+
+                        html += `
+                            <div class="action-buttons">
+                                <button class="btn btn-outline" onclick="comparePrice(${JSON.stringify(r.medicine)})">💲 Compare Price</button>
+                            </div>
+                        `;
+
+                        if (r.nearest_store) {
+                            html += `
+                                <div class="info-row">
+                                    <div class="info-field">
+                                        <div class="info-label">📍 Nearest Store</div>
+                                        <div class="info-value">${r.nearest_store}</div>
+                                    </div>
+                                    <div class="info-field">
+                                        <div class="info-label">Distance</div>
+                                        <div class="info-value highlight-blue">${r.nearest_distance} km</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        html += `<p style="padding: 10px; color: var(--text-muted);">❌ Not available in any pharmacy</p>`;
+                    }
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+            } else if (medicines.length === 0) {
+                html += `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h2>No Medicines Detected</h2>
+                        <p>No medicines from our database were found. Try uploading a clearer image.</p>
+                    </div>
+                `;
+            }
+
+            // Action buttons
+            html += `
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="go('prescription-upload.html')">📤 Upload Another</button>
+                    <button class="btn btn-outline" onclick="go('price-search.html')">💲 Compare Prices</button>
+                </div>
+            `;
+
+            document.getElementById("resultsContainer").innerHTML = html;
+            if (data.bot_message) {
+                showBotPopup(data.bot_message);
+            }
+        }
+
+        function comparePrice(name) {
+            openPriceModal(name);
+        }
+
+        function openPriceModal(name) {
+            const modal = document.getElementById("priceModal");
+            const title = document.getElementById("modalTitle");
+            const body = document.getElementById("priceModalBody");
+
+            title.textContent = `Compare prices for ${name}`;
+            body.innerHTML = '<div class="price-modal-loader">Loading price comparison...</div>';
+            modal.classList.add("show");
+
+            fetch(`http://localhost:3000/api/price?q=${encodeURIComponent(name)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || data.length === 0) {
+                        body.innerHTML = '<div class="price-modal-error">No price comparison data found for this medicine.</div>';
+                        return;
+                    }
+
+                    const prices = data.map(item => {
+                        const value = parseInt((item.price || "").replace(/[^0-9]/g, "")) || 999999;
+                        return { ...item, numericPrice: value };
+                    });
+                    const minPrice = Math.min(...prices.map(item => item.numericPrice));
+
+                    const rows = prices.map(item => {
+                        const isBest = item.numericPrice === minPrice;
+                        return `
+                            <tr>
+                                <td>${item.name || '—'}</td>
+                                <td>${item.store || '—'}</td>
+                                <td class="${isBest ? 'price-best' : ''}">${item.price || '—'}</td>
+                                <td class="price-link">${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank"><button>Go →</button></a>` : '—'}</td>
+                            </tr>
+                        `;
+                    }).join("");
+
+                    body.innerHTML = `
+                        <table class="price-table">
+                            <thead>
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Store</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Price compare error:', error);
+                    body.innerHTML = '<div class="price-modal-error">Unable to load price comparison right now. Please try again later.</div>';
+                });
+        }
+
+        function closePriceModal() {
+            document.getElementById("priceModal").classList.remove("show");
+        }
+
+        function showBotPopup(message) {
+            let toast = document.getElementById("botToast");
+            if (!toast) {
+                toast = document.createElement("div");
+                toast.id = "botToast";
+                toast.className = "bot-toast";
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 9000);
+        }
+    </script>
 </body>
 </html>

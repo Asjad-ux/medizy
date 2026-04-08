@@ -1,67 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Medizy Login</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Login</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<div id="toast"></div>
+<div class="auth-bg">
+  <div class="auth-card-box">
 
-<div class="background">
-
-    <div class="login-card">
-
-        <img src="assets/logo.png" class="logo">
-
-        <h1>Welcome To Medizy</h1>
-
-        <p class="subtitle">
-            AI-powered platform that instantly provides accurate medicine
-            information and smarter healthcare guidance.
-        </p>
-
-        <!-- 🔥 TOAST -->
-        <div id="toast"></div>
-
-        <!-- Login Section -->
-        <h3 class="login-title">Login</h3>
-        <small class="login-sub">(If you are an Existing User)</small>
-
-        <!-- FORM START -->
-        <form onsubmit="return false;">
-
-            <div class="form-box">
-
-                <div class="input-box">
-                    <label>Email :</label>
-                    <input type="text" id="email" required>
-                </div>
-
-                <div class="input-box">
-                    <label>Password :</label>
-                    <input type="password" id="password" required>
-                </div>
-
-                <div class="btns">
-                    <button type="button" onclick="location.href='signup.html'">
-                        New User
-                    </button>
-
-                    <!-- 🔥 IMPORTANT -->
-                    <button type="button" onclick="handleLogin()">Login</button>
-                </div>
-
-            </div>
-
-        </form>
-        <!-- FORM END -->
-
+    <div class="auth-logo">
+      <img src="assets/logo.png" alt="Medizy" onerror="this.parentElement.textContent='＋'">
     </div>
 
+    <h1>Welcome To Medizy</h1>
+    <p class="auth-sub">AI-powered platform that instantly provides accurate medicine information and smarter healthcare guidance.</p>
+
+    <div class="auth-login-label">Login</div>
+    <small class="auth-login-sub">(If you are an Existing User)</small>
+
+    <div class="auth-form-box">
+      <div class="auth-input-row">
+        <label>Email :</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+      <div class="auth-input-row">
+        <label>Password :</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+      <div class="auth-btns">
+        <button class="btn-secondary" onclick="go('signup.html')">New User</button>
+        <button class="btn-primary" onclick="handleLogin()">Login →</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<!-- 🔥 SCRIPT -->
+<script src="medizy.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>

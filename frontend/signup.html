@@ -1,67 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Medizy Sign Up</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Sign Up</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<div id="toast"></div>
+<div class="auth-bg">
+  <div class="auth-card-box">
 
-<div class="background">
-
-    <div class="login-card">
-
-        <img src="assets/logo.png" class="logo">
-
-        <h1>Sign-up for New Users</h1>
-
-        <!-- FORM START -->
-        <form onsubmit="return false;"></form>
-
-            <div class="form-box">
-
-                <div class="input-box">
-                    <label>Email :</label>
-                    <input type="text" id="email" required>
-                </div>
-
-                <div class="input-box">
-                    <label>Create Password :</label>
-                    <input type="password" id="password" required>
-                </div>
-
-                <div class="input-box">
-                    <label>Phone Number :</label>
-                    <input type="text" id="phone" required>
-                </div>
-
-                <div class="btns-center">
-                    <button type="button" onclick="handleSignup()">Sign Up</button>
-                </div>
-                <script>
-                document.querySelector("form").addEventListener("submit", function(){
-
-                    const email = document.querySelector("input[type='text']").value;
-                    const password = document.querySelector("input[type='password']").value;
-                    const phone = document.querySelectorAll("input")[2].value;
-
-                    localStorage.setItem("userEmail", email);
-                    localStorage.setItem("userPassword", password);
-                    localStorage.setItem("userPhone", phone);
-
-                });
-                </script>
-                <script src="script.js"></script>
-
-            </div>
-
-        </form>
-        <!-- FORM END -->
-
+    <div class="auth-logo">
+      <img src="assets/logo.png" alt="Medizy" onerror="this.parentElement.textContent='＋'">
     </div>
 
+    <h1>Sign-up for New Users</h1>
+    <p class="auth-sub">Create your free Medizy account to get started.</p>
+
+    <div class="auth-form-box">
+      <div class="auth-input-row">
+        <label>Email :</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+      <div class="auth-input-row">
+        <label>Password :</label>
+        <input type="password" id="password" placeholder="Create a strong password">
+      </div>
+      <div class="auth-input-row">
+        <label>Phone :</label>
+        <input type="tel" id="phone" placeholder="+91 00000 00000">
+      </div>
+      <div class="auth-btns-center">
+        <button class="btn-primary" style="flex:unset;padding:11px 40px;" onclick="handleSignup()">Create Account →</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-
+<script src="medizy.js"></script>
+<script>
+function handleSignup(){
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const phone    = document.getElementById("phone").value.trim();
+    if(!email||!password||!phone){ showToast("Please fill all fields"); return; }
+    localStorage.setItem("userEmail",email);
+    localStorage.setItem("userPassword",password);
+    localStorage.setItem("userPhone",phone);
+    window.location.href = "otp.html";
+}
+</script>
 </body>
 </html>

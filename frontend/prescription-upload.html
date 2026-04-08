@@ -1,96 +1,464 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Upload Prescription</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Prescription - Medizy</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .upload-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .upload-card {
+            background: var(--card-bg, #fff);
+            border: 1px solid var(--border, #ddd);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .upload-card h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text, #0F172A);
+        }
+
+        .upload-card .subtitle {
+            font-size: 13px;
+            color: var(--text-muted, #64748B);
+            margin-bottom: 30px;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border, #ddd);
+            border-radius: 12px;
+            padding: 50px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg, #f5f5f5);
+        }
+
+        .drop-zone:hover,
+        .drop-zone.drag-over {
+            border-color: #2563EB;
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .drop-zone-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .drop-zone p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text, #0F172A);
+            margin: 8px 0;
+        }
+
+        .drop-zone .hint {
+            font-size: 12px;
+            color: var(--text-muted, #64748B);
+            margin-top: 8px;
+        }
+
+        .separator {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-muted, #64748B);
+            font-size: 12px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1D4ED8;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .progress-container.show {
+            display: block;
+        }
+
+        .progress-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .step-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step.active .step-dot {
+            border-color: #2563EB;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .step.done .step-dot {
+            background: #22C55E;
+            border-color: #22C55E;
+            color: white;
+        }
+
+        .step.error .step-dot {
+            background: #EF4444;
+            border-color: #EF4444;
+            color: white;
+        }
+
+        .spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            border-top-color: #2563EB;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #EF4444;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #22C55E;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
 </head>
-
 <body>
-
-<!-- TOPBAR -->
-<div class="topbar">
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-
-        <img src="assets/logo.png">
-
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
+    <div class="topbar">
+        <div class="brand" onclick="go('dashboard.html')">
+            <div class="brand-icon">＋</div>
+            <div class="brand-text">
+                <h2>Medizy</h2>
+                <p>AI-powered platform for accurate medicine information.</p>
+            </div>
         </div>
-
-    </div>
-
-    <div class="actions">
-        <input placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile">👤</div>
-    </div>
-</div>
-
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <button class="active" onclick="go('Prescription-upload.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button onclick="go('price-search.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-
-        <div class="time-box" id="time"></div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content center-content">
-
-        <div class="auth-card">
-
-            <img src="assets/folder.png" class="icon">
-
-            <p>
-                Click the button below to upload your<br>
-                prescription
-            </p>
-
-            <p class="or">-----OR-----</p>
-
-            <input type="file" id="fileInput" hidden>
-
-            <button onclick="document.getElementById('fileInput').click()">
-                Choose Files
+        <div class="topbar-actions">
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+            <div class="search-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Search Medicine in Nearby Stores" autocomplete="off">
+                <div class="autocomplete-dropdown" id="autocompleteDropdown">
+                    <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+                    <div id="dropdownList"></div>
+                </div>
+            </div>
+            <button class="profile-btn" onclick="go('profile.html')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             </button>
-
         </div>
-
     </div>
 
-</div>
+    <div class="layout">
+        <!-- MOBILE MENU OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
+        <div class="sidebar">
+            <button class="nav-item" onclick="go('dashboard.html')">
+              <span class="nav-icon">🏠</span>Dashboard
+            </button>
+            <button class="nav-item active" onclick="go('prescription-upload.html')">
+                <span class="nav-icon">📋</span> Upload Prescription
+            </button>
+            <button class="nav-item" onclick="go('image-search.html')">
+                <span class="nav-icon">🛡️</span> Authenticate Medicine
+            </button>
+            <button class="nav-item" onclick="go('price-search.html')">
+                <span class="nav-icon">💲</span> Price Compare
+            </button>
+            <button class="nav-item" onclick="go('chatbot.html')">
+                <span class="nav-icon">🤖</span> Ask MediBot
+            </button>
+            <button class="nav-item" onclick="go('analytics.html')">
+              <span class="nav-icon">📊</span>Analytics
+            </button>
+            <button class="nav-item" onclick="go('pharmacy-register.html')">
+              <span class="nav-icon">🏪</span>Register Pharmacy
+            </button>
+            <button class="nav-item" onclick="go('about.html')">
+                <span class="nav-icon">ℹ️</span> About
+            </button>
+            <div class="time-box">
+                <div class="clock" id="clock">--:--:--</div>
+                <div class="day" id="day">---</div>
+                <div class="date" id="dateEl">---</div>
+            </div>
+        </div>
 
-<script>
+        <div class="content">
+            <div class="upload-container">
+                <div class="upload-card">
+                    <h2>Upload Prescription</h2>
+                    <p class="subtitle">Scan or upload your prescription image for instant medicine details & pricing</p>
 
-function go(page){
-    window.location.href = page;
-}
+                    <div class="error-message" id="errorMsg"></div>
+                    <div class="success-message" id="successMsg"></div>
 
-// upload → next page
-document.getElementById("fileInput").addEventListener("change", function(){
-    window.location.href = "prescription-result.html";
-});
+                    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div class="drop-zone-icon">📋</div>
+                        <p>Click to upload or drag & drop</p>
+                        <p class="hint">PNG, JPG, JPEG, WEBP, BMP, TIFF · Max 10 MB</p>
+                    </div>
 
-// time
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
+                    <p class="separator">— OR —</p>
 
-    document.getElementById("time").innerHTML =
-        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + "<br>" +
-        day + "<br>" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <button class="btn btn-primary" id="uploadBtn" onclick="document.getElementById('fileInput').click()">
+                        📁 Choose File
+                    </button>
 
-</script>
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-steps">
+                            <div class="step" id="step1">
+                                <div class="step-dot" id="dot1">1</div>
+                                <span>Uploading image...</span>
+                            </div>
+                            <div class="step" id="step2">
+                                <div class="step-dot" id="dot2">2</div>
+                                <span>Extracting text with OCR...</span>
+                            </div>
+                            <div class="step" id="step3">
+                                <div class="step-dot" id="dot3">3</div>
+                                <span>Matching medicines...</span>
+                            </div>
+                            <div class="step" id="step4">
+                                <div class="step-dot" id="dot4">4</div>
+                                <span>Fetching prices...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="medizy.js"></script>
+    <script>
+        const API_URL = 'http://127.0.0.1:5000';
+        let selectedFile = null;
+
+        // Initialize
+        initSearch("searchInput");
+        startClock("clock", "day", "dateEl");
+
+        // File input change
+        document.getElementById("fileInput").addEventListener("change", function() {
+            if (this.files.length > 0) {
+                handleFileSelected(this.files[0]);
+            }
+        });
+
+        // Drag and drop
+        const dropZone = document.getElementById("dropZone");
+        dropZone.addEventListener("dragover", e => {
+            e.preventDefault();
+            dropZone.classList.add("drag-over");
+        });
+        dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+        dropZone.addEventListener("drop", e => {
+            e.preventDefault();
+            dropZone.classList.remove("drag-over");
+            if (e.dataTransfer.files.length > 0) {
+                handleFileSelected(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFileSelected(file) {
+            const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/bmp', 'image/tiff', 'image/gif'];
+            
+            if (!allowed.includes(file.type)) {
+                showError("File type not supported");
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showError("File too large (max 10 MB)");
+                return;
+            }
+
+            selectedFile = file;
+            clearError();
+            uploadPrescription(file);
+        }
+
+        async function uploadPrescription(file) {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            console.log("[CLIENT] Uploading prescription to", API_URL + '/upload-prescription');
+
+            try {
+                // Show progress
+                document.getElementById("progressContainer").classList.add("show");
+                document.getElementById("uploadBtn").disabled = true;
+                setStep(1, "active");
+
+                // Upload
+                const response = await fetch(API_URL + '/upload-prescription', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log("[CLIENT] Upload response status:", response.status);
+                setStep(1, "done");
+
+                const data = await response.json();
+                console.log("[CLIENT] Response data:", data);
+
+                if (!data.success) {
+                    console.error("[CLIENT] Upload failed:", data.error);
+                    setStep(2, "error");
+                    showError(data.error);
+                    document.getElementById("uploadBtn").disabled = false;
+                    return;
+                }
+
+                // Simulate steps
+                setStep(2, "active");
+                await sleep(400);
+                setStep(2, "done");
+
+                setStep(3, "active");
+                await sleep(400);
+                setStep(3, "done");
+
+                setStep(4, "active");
+                await sleep(400);
+                setStep(4, "done");
+
+                // Save and redirect
+                console.log("[CLIENT] Saving to sessionStorage and redirecting...");
+                sessionStorage.setItem("prescriptionResult", JSON.stringify(data));
+                
+                showSuccess("Analysis complete! Redirecting...");
+                
+                setTimeout(() => {
+                    console.log("[CLIENT] Navigating to prescription-result.html");
+                    window.location.href = "prescription-result.html";
+                }, 1500);
+
+            } catch (error) {
+                console.error("[CLIENT] Error:", error);
+                setStep(1, "error");
+                showError("Network error: " + error.message);
+                document.getElementById("uploadBtn").disabled = false;
+            }
+        }
+
+        function setStep(num, state) {
+            const step = document.getElementById("step" + num);
+            const dot = document.getElementById("dot" + num);
+            
+            step.classList.remove("active", "done", "error");
+            if (state) step.classList.add(state);
+            
+            if (state === "active") {
+                dot.innerHTML = '<div class="spinner"></div>';
+            } else if (state === "done") {
+                dot.textContent = "✓";
+            } else if (state === "error") {
+                dot.textContent = "✕";
+            } else {
+                dot.textContent = num;
+            }
+        }
+
+        function showError(msg) {
+            const el = document.getElementById("errorMsg");
+            el.textContent = "⚠️ " + msg;
+            el.classList.add("show");
+        }
+
+        function clearError() {
+            document.getElementById("errorMsg").classList.remove("show");
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById("successMsg");
+            el.textContent = "✓ " + msg;
+            el.classList.add("show");
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
 </body>
 </html>

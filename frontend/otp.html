@@ -1,117 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>OTP Verification</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — OTP Verification</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<div id="toast"></div>
+<div class="auth-bg">
+  <div class="auth-card-box">
 
-<div class="background">
-
-    <div class="login-card">
-
-        <img src="assets/logo.png" class="logo">
-
-        <h1>User Verification by OTP</h1>
-
-        <p class="subtitle">
-            An OTP has been sent to your registered Email ID
-        </p>
-
-        <!-- FORM START -->
-        <form onsubmit="verifyOTP(event)">
-
-            <div class="form-box">
-
-                <p class="otp-text">Please enter the OTP Below</p>
-
-                <!-- OTP BOXES -->
-                <div class="otp-boxes">
-                    <input type="text" maxlength="1" required>
-                    <input type="text" maxlength="1" required>
-                    <input type="text" maxlength="1" required>
-                    <input type="text" maxlength="1" required>
-                    <input type="text" maxlength="1" required>
-                    <input type="text" maxlength="1" required>
-                </div>
-
-                <div class="btns-center">
-                    <button type="submit">Submit</button>
-                </div>
-
-            </div>
-
-        </form>
-        <!-- FORM END -->
-
+    <div class="auth-logo">
+      <img src="assets/logo.png" alt="Medizy" onerror="this.parentElement.textContent='＋'">
     </div>
 
+    <h1>User Verification by OTP</h1>
+    <p class="auth-sub">An OTP has been sent to your registered Email ID</p>
+
+    <div class="auth-form-box">
+      <p style="font-size:14px;font-weight:600;color:var(--text-muted);margin-bottom:14px;">Please enter the OTP Below</p>
+
+      <div class="otp-boxes">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+      </div>
+
+      <div class="auth-btns-center">
+        <button class="btn-primary" style="flex:unset;padding:11px 40px;" onclick="verifyOTP()">Verify & Continue →</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<!-- 🔥 OTP VERIFY SCRIPT -->
+<script src="medizy.js"></script>
 <script>
-async function verifyOTP(event) {
-  event.preventDefault();
+// Auto-advance OTP
+const inputs = document.querySelectorAll(".otp-boxes input");
+inputs.forEach((input, i) => {
+    input.addEventListener("input", () => { if(input.value.length===1 && i<inputs.length-1) inputs[i+1].focus(); });
+    input.addEventListener("keydown", e => { if(e.key==="Backspace"&&input.value===""&&i>0) inputs[i-1].focus(); });
+});
 
-  const inputs = document.querySelectorAll(".otp-boxes input");
-  let otp = "";
-
-  inputs.forEach(input => {
-    otp += input.value;
-  });
-
-  console.log("OTP:", otp);
-
-  const email = localStorage.getItem("userEmail");
-  const password = localStorage.getItem("userPassword");
-  const phone = localStorage.getItem("userPhone");
-
-  console.log("DATA:", { email, password, phone, otp });
-
-  const res = await fetch("http://localhost:3000/api/verify-otp", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ email, password, phone, otp })
-  });
-
-  const data = await res.json();
-
-  console.log("RESPONSE:", data);
-
-  if (data.success) {
-    alert("Signup Successful");
-    window.location.href = "dashboard.html";
-  } else {
-    alert("Invalid OTP");
-  }
+async function verifyOTP(){
+    let otp = ""; inputs.forEach(inp => otp += inp.value);
+    if(otp.length < 6){ showToast("Enter all 6 digits"); return; }
+    const email    = localStorage.getItem("userEmail");
+    const password = localStorage.getItem("userPassword");
+    const phone    = localStorage.getItem("userPhone");
+    try {
+        const res  = await fetch("http://localhost:3000/api/verify-otp",{
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({email,password,phone,otp})
+        });
+        const data = await res.json();
+        if(data.success){ alert("Signup Successful!"); go("dashboard.html"); }
+        else showToast("Invalid OTP. Please try again.");
+    } catch(err){ showToast("Server not reachable"); }
 }
 </script>
-
-<!-- 🔥 AUTO MOVE OTP INPUT -->
-<script>
-const inputs = document.querySelectorAll(".otp-boxes input");
-
-inputs.forEach((input, index) => {
-
-    input.addEventListener("input", () => {
-        if (input.value.length === 1) {
-            if (index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        }
-    });
-
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && input.value === "") {
-            if (index > 0) {
-                inputs[index - 1].focus();
-            }
-        }
-    });
-
-});
-</script>
-
 </body>
 </html>

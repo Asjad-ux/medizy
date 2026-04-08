@@ -1,88 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Price Compare</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Medizy — Price Compare</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-
-    <div class="brand" onclick="go('dashboard.html')" style="cursor:pointer;">
-
-        <img src="assets/logo.png">
-
-        <div>
-            <h2>Medizy</h2>
-            <p>AI-powered platform that instantly provides accurate medicine information.</p>
-        </div>
-
+  <div class="brand" onclick="go('dashboard.html')">
+    <div class="brand-icon"><img src="assets/logo.png" onerror="this.parentElement.textContent='＋'"></div>
+    <div class="brand-text"><h2>Medizy</h2><p>AI-powered platform for accurate medicine information.</p></div>
+  </div>
+  <div class="topbar-actions">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="topSearch" placeholder="Search Medicine in Nearby Stores">
     </div>
-
-    <div class="actions">
-        <input placeholder="Search Medicines from Nearby Pharmacies">
-        <div class="profile" onclick="go('profile.html')">👤</div>
-    </div>
-
+    <button class="profile-btn" onclick="go('profile.html')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
 </div>
 
-<!-- MAIN -->
 <div class="layout">
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-
-        <button onclick="go('prescription-upload.html')">Upload Prescription</button>
-        <button onclick="go('image-search.html')">Authenticate Medicine</button>
-        <button class="active" onclick="go('price-search.html')">Price Compare</button>
-        <button onclick="go('chatbot.html')">Ask MediBot</button>
-        <button onclick="go('pharmacy-register.html')">Register Your Pharmacy</button>
-        <button onclick="go('about.html')">About</button>
-
-        <div class="time-box" id="time"></div>
-
+  <div class="sidebar">
+    <button class="nav-item" onclick="go('dashboard.html')"><span class="nav-icon">🏠</span>Dashboard</button>
+    <button class="nav-item" onclick="go('prescription-upload.html')"><span class="nav-icon">📋</span>Upload Prescription</button>
+    <button class="nav-item" onclick="go('image-search.html')"><span class="nav-icon">🛡️</span>Authenticate Medicine</button>
+    <button class="nav-item active" onclick="go('price-search.html')"><span class="nav-icon">💲</span>Price Compare</button>
+    <button class="nav-item" onclick="go('chatbot.html')"><span class="nav-icon">🤖</span>Ask MediBot</button>
+    <button class="nav-item" onclick="go('analytics.html')"><span class="nav-icon">📊</span>Analytics</button>
+    <button class="nav-item" onclick="go('pharmacy-register.html')"><span class="nav-icon">🏪</span>Register Pharmacy</button>
+    <button class="nav-item" onclick="go('about.html')"><span class="nav-icon">ℹ️</span>About</button>
+    <div class="time-box">
+      <div class="t-clock" id="clock">--:--:--</div>
+      <div class="t-day" id="day">---</div>
+      <div class="t-date" id="dateEl">---</div>
     </div>
+  </div>
 
-    <!-- CONTENT -->
-    <div class="content center-content">
-
-        <div class="search-wrapper">
-            <input id="priceSearch"
-            placeholder="Search Medicines to compare price from online resellers">
-            <span>🔍</span>
+  <div class="content center-content" style="flex-direction:column;gap:0;align-items:center;justify-content:center;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;">Price Comparison</h1>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:4px;">Search any medicine to compare prices across online resellers</p>
+      <div class="autocomplete-dropdown" id="autocompleteDropdown">
+        <div class="dropdown-header" id="dropdownHeader">Suggestions</div>
+          <div id="dropdownList"></div>
         </div>
-
     </div>
-
+    <div class="price-search-wrap" style="position:relative;">
+      <input id="priceSearch" placeholder="Search Medicines to compare price from online resellers" autocomplete="off">
+      <span class="search-icon">🔍</span>
+      <div class="autocomplete-dropdown" id="priceDropdown">
+        <div class="dropdown-header" id="priceDropdownHeader">Suggestions</div>
+        <div id="priceDropdownList"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<script src="medizy.js"></script>
 <script>
-function go(page){
-    window.location.href = page;
+initSearch("topSearch");
+const query = new URLSearchParams(window.location.search).get("q");
+const priceInput = document.getElementById("priceSearch");
+if (query && priceInput) {
+    priceInput.value = query;
+    localStorage.setItem("priceQuery", query);
 }
-
-document.getElementById("priceSearch").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        localStorage.setItem("priceQuery", this.value);
-        window.location.href = "price-result.html";
-    }
-});
-
-// time
-function updateTime(){
-    const now = new Date();
-    const day = now.toLocaleDateString(undefined, { weekday: 'long' });
-
-    document.getElementById("time").innerText =
-        now.toLocaleTimeString() + "\n" +
-        day + "\n" +
-        now.toLocaleDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
+initAutocomplete("priceSearch","priceDropdown","priceDropdownHeader","priceDropdownList","price-result.html","priceQuery");
+startClock("clock","day","dateEl");
 </script>
-
 </body>
 </html>
