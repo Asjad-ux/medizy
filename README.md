@@ -1,255 +1,341 @@
-# MEDIZY
+<div align="center">
 
-An AI-powered healthcare assistant designed to help users understand medical information in a simple and accessible way. MEDIZY assists with prescription interpretation, medicine information, lab report analysis, and healthcare navigation, making healthcare knowledge easier to understand for everyone.
+<img src="https://img.shields.io/badge/MEDIZY-Healthcare%20AI-0EA5E9?style=for-the-badge&logoColor=white" alt="MEDIZY" />
 
----
+<h1>🏥 MEDIZY</h1>
 
-## Problem Statement
+<p><strong>Your AI-Powered Medical Companion — Understand Healthcare, Simply.</strong></p>
 
-Many patients struggle to understand:
+<p>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Gemini%20API-8B5CF6?style=flat-square&logo=google&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Google%20Maps-4285F4?style=flat-square&logo=googlemaps&logoColor=white"/>
+  <img src="https://img.shields.io/badge/OCR-FF6B6B?style=flat-square&logoColor=white"/>
+</p>
 
-- Doctor prescriptions
-- Medical terminology
-- Laboratory reports
-- Medicine usage instructions
-- Nearby healthcare facilities
-
-This communication gap often leads to confusion, misuse of medicines, and delayed medical decisions.
-
----
-
-## Solution
-
-MEDIZY leverages Artificial Intelligence and OCR technology to bridge the gap between medical information and patient understanding.
-
-The platform can analyze prescriptions, explain medicines in simple language, interpret lab reports, and help users locate nearby healthcare facilities.
-
----
-
-## Key Features
-
-### Prescription Scanner
-- Extracts text from handwritten or printed prescriptions using OCR.
-- Identifies medicines and dosage instructions.
-
-### Medicine Explanation
-- Provides easy-to-understand information about prescribed medicines.
-- Explains usage, purpose, and precautions.
-
-### Lab Report Analysis
-- Interprets common laboratory test results.
-- Highlights important values and provides simplified explanations.
-
-### Healthcare Navigation
-- Locate nearby hospitals.
-- Find nearby diagnostic laboratories.
-- Easy access to healthcare services.
-
-### Multilingual Assistance
-- Medical explanations in simple language.
-- Improved accessibility for diverse users.
-
-### AI-Powered Medical Guidance
-- Conversational healthcare assistant.
-- Helps users better understand medical information.
+<p>
+  <a href="#-features">Features</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-screenshots">Screenshots</a> •
+  <a href="#-roadmap">Roadmap</a>
+</p>
 
 ---
 
-##  System Architecture
+> *"Healthcare knowledge should be a right, not a privilege."*
 
-```text
-User
-  │
-  ▼
-Frontend Interface
-  │
-  ▼
-Backend Server
-  │
-  ├── OCR Engine
-  │
-  ├── AI Processing Layer
-  │
-  ├── Medicine Database
-  │
-  └── Location Services
-  │
-  ▼
-Response Generation
-  │
-  ▼
-User-Friendly Medical Insights
+</div>
+
+---
+
+## 🩺 What is MEDIZY?
+
+**MEDIZY** is an AI-powered healthcare assistant that bridges the gap between complex medical information and everyday understanding. Whether it's a prescription you can't decipher, a lab report full of numbers, or a medicine you've never heard of — MEDIZY explains it all in plain, human language.
+
+Built for patients, caregivers, and anyone navigating the healthcare system — MEDIZY puts the power of medical understanding in your hands.
+
+---
+
+## ❗ The Problem
+
+> Millions of patients leave clinics confused, holding prescriptions they don't understand.
+
+| Challenge | Impact |
+|-----------|--------|
+| 📄 Unreadable prescriptions | Wrong dosages, missed medications |
+| 🔬 Confusing lab results | Delayed treatment decisions |
+| 💊 Unknown medicines | Incorrect usage, side effects ignored |
+| 🏥 Hard to find facilities | Delayed access to care |
+| 🌐 Medical jargon overload | Patient disengagement |
+
+---
+
+## ✅ The Solution
+
+MEDIZY uses **AI + OCR** to decode, explain, and guide — transforming medical complexity into clear, actionable insights.
+
+```
+Prescription Image  →  OCR Extraction  →  AI Interpretation  →  Simple Explanation
+Lab Report PDF      →  Data Parsing    →  Value Analysis     →  Plain-English Summary
+User Query          →  NLP Processing  →  Gemini AI Engine   →  Conversational Guidance
 ```
 
 ---
 
-##  Tech Stack
+## ✨ Features
 
-### Frontend
-- HTML
-- CSS
-- JavaScript
+<table>
+<tr>
+<td width="50%">
 
-### Backend
-- Node.js
-- Express.js
+### 📋 Prescription Scanner
+- Extracts text from **handwritten or printed** prescriptions via OCR
+- Identifies medicine names, dosages & timing
+- Displays a clean, structured summary
 
-### Artificial Intelligence
-- Gemini API
-- Natural Language Processing (NLP)
+</td>
+<td width="50%">
 
-### OCR
-- Optical Character Recognition (OCR)
+### 💊 Medicine Explainer
+- Plain-language breakdown of any medicine
+- Covers **purpose, dosage, side effects & precautions**
+- Designed for non-medical users
 
-### Database
-- MongoDB
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-### Maps & Location
-- Google Maps API / Location Services
+### 🔬 Lab Report Analyser
+- Interprets common blood, urine & diagnostic tests
+- Flags **abnormal values** clearly
+- Provides simplified context — no medical degree needed
+
+</td>
+<td width="50%">
+
+### 🗺️ Healthcare Navigator
+- Find **nearby hospitals & diagnostic labs**
+- Google Maps integration for live directions
+- One-tap access to local healthcare services
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🤖 AI Health Assistant
+- Conversational medical guidance
+- Ask anything, get medically-contextualized responses
+- Powered by **Gemini API + NLP**
+
+</td>
+<td width="50%">
+
+### 🌍 Multilingual Support
+- Explanations in simple, accessible language
+- Built for diverse, non-English-first audiences
+- Inclusive by design
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 📷 Screenshot
+## 🏗️ Architecture
 
-### Home Dashboard
-<img width="1896" height="917" alt="image" src="https://github.com/user-attachments/assets/b975e29b-992e-4f75-beaf-57c49ca1a22c" />
+```
+                        ┌─────────────────────┐
+                        │       USER           │
+                        └────────┬────────────┘
+                                 │
+                        ┌────────▼────────────┐
+                        │  Frontend Interface  │
+                        │  HTML • CSS • JS     │
+                        └────────┬────────────┘
+                                 │
+                        ┌────────▼────────────┐
+                        │   Backend Server     │
+                        │  Node.js + Express   │
+                        └────────┬────────────┘
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                       │
+ ┌────────▼───────┐   ┌──────────▼────────┐   ┌────────▼────────┐
+ │   OCR Engine   │   │  AI Processing    │   │ Location Services│
+ │  Text Extract  │   │  Gemini API + NLP │   │ Google Maps API  │
+ └────────┬───────┘   └──────────┬────────┘   └────────┬────────┘
+          │                      │                       │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                        ┌────────▼────────────┐
+                        │     MongoDB DB       │
+                        │  Medicine Database   │
+                        └────────┬────────────┘
+                                 │
+                        ┌────────▼────────────┐
+                        │  User-Friendly       │
+                        │  Medical Insights    │
+                        └─────────────────────┘
+```
 
 ---
 
-## Installation
+## 🛠️ Tech Stack
 
-### Clone Repository
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | HTML5, CSS3, JavaScript |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB |
+| **AI / NLP** | Gemini API, Natural Language Processing |
+| **OCR** | Optical Character Recognition Engine |
+| **Maps** | Google Maps API |
+
+---
+
+## 🚀 Installation
+
+### Prerequisites
+- Node.js `v18+`
+- MongoDB (local or Atlas)
+- Gemini API Key
+- Google Maps API Key
+
+### Quick Start
 
 ```bash
+# 1. Clone the repository
 git clone https://github.com/yourusername/medizy.git
-```
 
-### Navigate to Project
-
-```bash
+# 2. Navigate into the project
 cd medizy
-```
 
-### Install Dependencies
-
-```bash
+# 3. Install dependencies
 npm install
-```
 
-### Run Application
+# 4. Set up environment variables
+cp .env.example .env
+# → Add your GEMINI_API_KEY, MONGODB_URI, GOOGLE_MAPS_KEY
 
-```bash
+# 5. Start the application
 npm start
 ```
 
----
-
-## Use Cases
-
-- Understanding doctor prescriptions
-- Medicine information lookup
-- Lab report interpretation
-- Healthcare facility discovery
-- Patient awareness and education
+> 🌐 Open `http://localhost:3000` in your browser.
 
 ---
 
-##  Future Enhancements
+## 📷 Screenshots
 
-## Future Roadmap
-
-MEDIZY aims to evolve into a complete healthcare and pharmacy ecosystem by connecting patients, pharmacies, laboratories, and hospitals through real-time data and AI-driven services.
-
-### Smart Pharmacy Portal
-
-- Pharmacy owner registration and verification system.
-- Dedicated dashboard for every registered pharmacy.
-- Real-time inventory management.
-- Daily stock upload and automated stock updates.
-- Live order tracking and management.
-- Instant notifications for incoming medicine orders.
-
-### Real-Time Medicine Availability
-
-- Search medicines across nearby pharmacies.
-- Display real-time stock availability.
-- Compare availability from multiple medical stores.
-- Reserve medicines before visiting the pharmacy.
-- Option for in-store pickup or home delivery.
-
-### Intelligent Order Management
-
-- Automatic stock deduction after successful purchase.
-- Pharmacy owner notifications for new orders.
-- Order preparation status updates.
-- Customer order tracking system.
-
-### Pharmacy Navigation
-
-- Google Maps integration for pharmacy directions.
-- One-click navigation to the selected pharmacy.
-- Distance and estimated travel time display.
-- Nearby pharmacy recommendations.
-
-###  Advanced Hospital Discovery
-
-- Nearby hospital search based on user location.
-- Hospital information dashboard including:
-  - Available treatments
-  - Bed availability
-  - Doctor availability
-  - Doctor schedules
-  - Ratings and reviews
-- Direct navigation through Google Maps.
-
-###  AI-Powered Healthcare Expansion
-
-- AI-assisted medicine recommendations (informational only).
-- Intelligent healthcare query assistant.
-- Medical report interpretation.
-- Personalized healthcare guidance.
-
-###  Voice & Accessibility Features
-
-- Voice-based healthcare assistant.
-- Multilingual support.
-- Accessibility-focused user interface.
-
-###  Emergency Healthcare Network
-
-- Emergency hospital locator.
-- Fast-access healthcare services.
-- Real-time emergency resource availability.
-
-###  Healthcare Data Ecosystem
-
-- Unified healthcare service platform.
-- Real-time synchronization between pharmacies and users.
-- Analytics dashboard for pharmacy owners.
-- Demand forecasting for medicine inventory management.
+### 🏠 Home Dashboard
+<img width="1896" height="917" alt="MEDIZY Home Dashboard" src="https://github.com/user-attachments/assets/b975e29b-992e-4f75-beaf-57c49ca1a22c" />
 
 ---
 
-##  Disclaimer
+## 📌 Use Cases
 
-MEDIZY is designed for informational and educational purposes only. It does not replace professional medical advice, diagnosis, or treatment. Users should always consult qualified healthcare professionals for medical decisions.
-
----
-
-##  Team
-
-### Project Lead
-**Asjad Zia Siddiqui**
-**Nubaid Uddin**
-
-### Domain
-Healthcare Technology • Artificial Intelligence • Medical Informatics
+- 👨‍⚕️ Patient just left the clinic and can't read the prescription
+- 💉 Understanding what a blood test result means
+- 🔍 Searching for a nearby pharmacy or diagnostic lab
+- 📚 Learning about a medicine before taking it
+- 🧓 Elderly users needing simplified health guidance
 
 ---
 
-##  Support
+## 🗺️ Roadmap
 
-If you found this project useful, consider giving it a star ⭐ on GitHub.
+MEDIZY is evolving into a **complete healthcare ecosystem** — connecting patients, pharmacies, labs, and hospitals in real time.
+
+<details>
+<summary><strong>🏪 Smart Pharmacy Portal</strong></summary>
+
+- Pharmacy owner registration & verification
+- Real-time inventory management dashboard
+- Daily stock uploads & automated updates
+- Live order tracking & instant notifications
+- Reserve medicines for in-store pickup or home delivery
+
+</details>
+
+<details>
+<summary><strong>💊 Real-Time Medicine Availability</strong></summary>
+
+- Search medicines across nearby pharmacies
+- Compare stock from multiple medical stores
+- Automatic stock deduction post-purchase
+- Customer order tracking system
+
+</details>
+
+<details>
+<summary><strong>🏥 Advanced Hospital Discovery</strong></summary>
+
+- Nearby hospital search by specialty & location
+- Live bed availability & doctor schedules
+- Ratings, reviews & direct navigation
+- Emergency hospital locator
+
+</details>
+
+<details>
+<summary><strong>🤖 AI Healthcare Expansion</strong></summary>
+
+- AI-assisted medicine recommendations *(informational)*
+- Personalized healthcare guidance engine
+- Voice-based multilingual assistant
+- Accessibility-focused interface
+
+</details>
+
+<details>
+<summary><strong>📊 Healthcare Data Ecosystem</strong></summary>
+
+- Unified platform for pharmacies, labs & hospitals
+- Analytics dashboard for pharmacy owners
+- Demand forecasting for inventory management
+- Real-time sync across all services
+
+</details>
 
 ---
 
+## ⚠️ Disclaimer
+
+> MEDIZY is built for **informational and educational purposes only**.
+> It is **not** a substitute for professional medical advice, diagnosis, or treatment.
+> Always consult a qualified healthcare professional for medical decisions.
+
+---
+
+## 👥 Team
+
+<table>
+<tr>
+<td align="center">
+<b>Asjad Zia Siddiqui</b><br/>
+<sub>Project Lead & Developer</sub>
+</td>
+<td align="center">
+<b>Nubaid Uddin</b><br/>
+<sub>Project Lead & Developer</sub>
+</td>
+</tr>
+</table>
+
+**Domain:** Healthcare Technology • Artificial Intelligence • Medical Informatics
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a Pull Request
+
+---
+
+## ⭐ Support
+
+If MEDIZY helped you or you found it valuable — please consider giving it a **star on GitHub** ⭐
+
+It motivates us to keep building and improving!
+
+---
+
+<div align="center">
+
+**Made with ❤️ for better healthcare access**
+
+`Healthcare` • `AI` • `OCR` • `Node.js` • `MongoDB` • `Gemini`
+
+</div>
