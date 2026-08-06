@@ -1,42 +1,23 @@
-// backend/server.js
-
-require("dotenv").config(); // ✅ ADDED
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ DB CONNECTION
-const db = require("./db");({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
-});
+// Use the connection exported from db.js
+const db = require("./db");
 
-db.connect(err => {
-  if (err) {
-    console.log("❌ DB Error:", err);
-  } else {
-    console.log("✅ Connected to Railway MySQL");
-  }
-});
-
-// ✅ Routes import
+// Routes import
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);
 
 // ================= SEARCH =================
 app.get("/search", (req, res) => {
-  const q = req.query.q;
-
-  console.log("Searching:", q);
+  const q = req.query.q || "";
 
   const sql = `
     SELECT ms.name, ms.latitude, ms.longitude, ms.image_url,
@@ -52,14 +33,13 @@ app.get("/search", (req, res) => {
       return res.json([]);
     }
 
-    console.log("Result:", result);
     res.json(result);
   });
 });
 
 // ================= PRICE =================
 app.get("/api/price", (req, res) => {
-  const query = req.query.q;
+  const query = req.query.q || "";
 
   const sql = `
     SELECT * FROM online_prices_wide 
@@ -68,7 +48,7 @@ app.get("/api/price", (req, res) => {
 
   db.query(sql, [`%${query}%`], (err, result) => {
     if (err) {
-      console.log(err);
+      console.log("DB Error:", err);
       return res.json([]);
     }
 
@@ -83,25 +63,25 @@ app.get("/api/price", (req, res) => {
         name: row.medicine_name,
         store: "PharmEasy",
         price: "₹" + row.PharmEasy,
-        link: `https://pharmeasy.in/search/all?name=${row.medicine_name}`
+        link: `https://pharmeasy.in/search/all?name=${encodeURIComponent(row.medicine_name)}`
       },
       {
         name: row.medicine_name,
         store: "NetMeds",
         price: "₹" + row.NetMeds,
-        link: `https://www.netmeds.com/catalogsearch/result/${row.medicine_name}/all`
+        link: `https://www.netmeds.com/catalogsearch/result/${encodeURIComponent(row.medicine_name)}/all`
       },
       {
         name: row.medicine_name,
         store: "TATA 1mg",
         price: "₹" + row.TATA1mg,
-        link: `https://www.1mg.com/search/all?name=${row.medicine_name}`
+        link: `https://www.1mg.com/search/all?name=${encodeURIComponent(row.medicine_name)}`
       },
       {
         name: row.medicine_name,
         store: "DawaIndia",
         price: "₹" + row.DawaIndia,
-        link: `https://www.dawaindia.com/search?q=${row.medicine_name}`
+        link: `https://www.dawaindia.com/search?q=${encodeURIComponent(row.medicine_name)}`
       }
     ];
 
@@ -119,9 +99,9 @@ app.post("/api/register-pharmacy", (req, res) => {
 
   const sql = "INSERT INTO pharmacies (name, address, gst) VALUES (?, ?, ?)";
 
-  db.query(sql, [name, address, gst], (err, result) => {
+  db.query(sql, [name, address, gst], (err) => {
     if (err) {
-      console.log(err);
+      console.log("DB Error:", err);
       return res.json({ success: false });
     }
 
@@ -129,7 +109,9 @@ app.post("/api/register-pharmacy", (req, res) => {
   });
 });
 
-// ✅ SERVER START (ONLY ONCE)
-app.listen(3000, () => {
-  console.log("🚀 Server running on http://localhost:3000");
+// ================= SERVER START =================
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
