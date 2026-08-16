@@ -175,7 +175,7 @@ def upload_prescription():
         bot_message = get_prescription_bot_message(results)
         print("[API] Bot message generated")
         
-        # Step 8: Return response
+        # Return response
         response = {
             "success": True,
             "extracted_text": extracted_text,
