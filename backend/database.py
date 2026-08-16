@@ -100,7 +100,6 @@ def get_all_medicine_names():
         conn = get_connection()
         cursor = conn.cursor()
         
-        # Hum sirf unique names nikal rahe hain taaki AI confusion na ho
         query = "SELECT DISTINCT medicine_name FROM medicines"
         cursor.execute(query)
         
