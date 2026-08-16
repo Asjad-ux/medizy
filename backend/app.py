@@ -114,7 +114,7 @@ def upload_prescription():
         
         image_bytes = file.read()
         
-        # Step 3: Run OCR
+        # Run OCR
         print("[API] Running Tesseract OCR...")
         ocr_result = extract_text_from_prescription(image_bytes)
         
