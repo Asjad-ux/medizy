@@ -49,7 +49,7 @@ def check_medicine_stock(med_name):
     conn.close()
     return results
 
-# 💰 Cheapest
+# Cheapest
 def get_cheapest_option(results):
     return min(results, key=lambda x: x['price'])
 
