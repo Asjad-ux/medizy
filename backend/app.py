@@ -11,7 +11,6 @@ import logging
 import os
 import werkzeug
 
-# Prescription imports
 from rx_ocr import extract_text_from_prescription
 from rx_handler import (
     get_medicines_from_db,
