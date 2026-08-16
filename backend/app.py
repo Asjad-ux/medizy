@@ -79,7 +79,6 @@ def upload_prescription():
     print("="*80)
     
     try:
-
         if 'file' not in request.files:
             return jsonify({
                 "success": False,
