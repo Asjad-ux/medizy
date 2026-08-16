@@ -166,7 +166,7 @@ def upload_prescription():
         user_lat = request.form.get('user_lat', type=float)
         user_lon = request.form.get('user_lon', type=float)
         
-        # Step 7: Build results
+        # Build results
         print("[API] Building pharmacy results...")
         results = build_results(medicine_names, user_lat, user_lon)
         print(f"[API] Built {len(results)} result entries")
