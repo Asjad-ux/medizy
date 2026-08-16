@@ -49,7 +49,6 @@ def chat():
 
 
 
-# ──────────────────── PRESCRIPTION UPLOAD ENDPOINT ────────────────────────
 
 
 UPLOAD_FOLDER = "backend/uploads"
