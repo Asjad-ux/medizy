@@ -100,7 +100,7 @@ def get_all_medicine_names():
         conn = get_connection()
         cursor = conn.cursor()
 
-        # Taking out unique names
+        # Taking out unique names with the help of the below query
         query = "SELECT DISTINCT medicine_name FROM medicines"
         cursor.execute(query)
         
