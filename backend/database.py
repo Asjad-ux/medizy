@@ -94,7 +94,7 @@ def get_online_prices(med_name):
     conn.close()
     return result
 
-# 📋 Get all medicine names for AI matching
+# Get all medicine names for AI matching
 def get_all_medicine_names():
     try:
         conn = get_connection()
