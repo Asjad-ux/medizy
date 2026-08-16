@@ -29,7 +29,6 @@ logging.basicConfig(level=logging.INFO)
 # Session storage
 sessions = {}
 
-
 @app.route('/chat', methods=['POST'])
 def chat():
     """Medibot chat endpoint"""
