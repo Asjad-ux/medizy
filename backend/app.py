@@ -48,7 +48,7 @@ def chat():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 # ──────────────────── PRESCRIPTION UPLOAD ENDPOINT ────────────────────────
 
 
