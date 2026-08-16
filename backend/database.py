@@ -62,7 +62,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     return R * c
 
-# 📍 Nearest pharmacy
+# Nearest pharmacy
 def get_nearest_store(results, user_lat=28.52, user_lon=77.25):
     for r in results:
         r['distance'] = calculate_distance(user_lat, user_lon, r['latitude'], r['longitude'])
