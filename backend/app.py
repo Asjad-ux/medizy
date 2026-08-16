@@ -22,7 +22,7 @@ from rx_handler import (
 
 load_dotenv()
 
-# Initialize Flask
+
 app = Flask(__name__, template_folder='../frontend', static_folder='../frontend')
 CORS(app)
 
