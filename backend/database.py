@@ -15,7 +15,7 @@ def get_connection():
         port=int(os.getenv("MYSQLPORT"))
     )
 
-# 🔍 Fuzzy match
+# Fuzzy match
 def find_closest_medicine(user_input):
     conn = get_connection()
     cursor = conn.cursor()
