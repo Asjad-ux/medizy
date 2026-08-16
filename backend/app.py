@@ -217,7 +217,7 @@ def upload_prescription():
             "error": "Internal server error"
         }), 500
 
-
+# Health Check Point
 
 @app.route('/health', methods=['GET'])
 def health():
