@@ -344,7 +344,7 @@ Contributions, issues, and feature requests are welcome.
 
 ## 📄 License
 
-No license file is currently included in this repository. Please add one before public distribution. See [choosealicense.com](https://choosealicense.com) for guidance.
+
 
 ---
 
