@@ -29,7 +29,7 @@ def find_closest_medicine(user_input):
     match, score, _ = process.extractOne(user_input, meds)
     return match if score and score > 60 else None
 
-# 💊 Stock + price
+# Stock + price
 def check_medicine_stock(med_name):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
