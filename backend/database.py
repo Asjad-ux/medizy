@@ -99,6 +99,7 @@ def get_all_medicine_names():
     try:
         conn = get_connection()
         cursor = conn.cursor()
+
         
         query = "SELECT DISTINCT medicine_name FROM medicines"
         cursor.execute(query)
