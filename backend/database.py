@@ -68,7 +68,7 @@ def get_nearest_store(results, user_lat=28.52, user_lon=77.25):
         r['distance'] = calculate_distance(user_lat, user_lon, r['latitude'], r['longitude'])
     return min(results, key=lambda x: x['distance'])
 
-# 🔄 Alternatives
+# Alternatives
 def get_alternatives(med_name):
     conn = get_connection()
     cursor = conn.cursor()
