@@ -49,8 +49,6 @@ def chat():
 
 
 
-
-
 UPLOAD_FOLDER = "backend/uploads"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tiff', 'gif'}
 MAX_FILE_SIZE = 10 * 1024 * 1024
