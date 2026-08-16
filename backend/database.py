@@ -83,7 +83,7 @@ def get_alternatives(med_name):
     conn.close()
     return results
 
-# 🛒 Online price comparison
+# Online price comparison
 def get_online_prices(med_name):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
