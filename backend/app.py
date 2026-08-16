@@ -162,7 +162,7 @@ def upload_prescription():
         medicine_names = [m['name'] for m in matched]
         print(f"[API] Matched {len(medicine_names)} medicines")
         
-        # Get location
+        # Get location (optional)
         user_lat = request.form.get('user_lat', type=float)
         user_lon = request.form.get('user_lon', type=float)
         
