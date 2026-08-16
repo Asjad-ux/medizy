@@ -104,7 +104,7 @@ def get_all_medicine_names():
         query = "SELECT DISTINCT medicine_name FROM medicines"
         cursor.execute(query)
         
-        # Saare names ko ek simple list mein convert karna
+        
         results = [row[0] for row in cursor.fetchall()]
         
         cursor.close()
