@@ -99,7 +99,7 @@ def upload_prescription():
                 "error": f"File type not allowed. Use: {', '.join(ALLOWED_EXTENSIONS)}"
             }), 400
         
-        # Check file size
+
         file.seek(0, os.SEEK_END)
         file_size = file.tell()
         file.seek(0)
