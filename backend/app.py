@@ -47,7 +47,7 @@ def chat():
         logging.error(f"Chat error: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# Prescription Upload 
+# Prescription Upload Checkpoint
 UPLOAD_FOLDER = "backend/uploads"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tiff', 'gif'}
 MAX_FILE_SIZE = 10 * 1024 * 1024
