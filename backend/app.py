@@ -152,7 +152,7 @@ def upload_prescription():
         
         print(f"[API] Found {len(db_medicines)} medicines in database")
         
-        # Step 5: Extract and match medicines
+        # Extract and match medicines
         print("[API] Extracting medicine candidates...")
         candidates = extract_medicine_candidates(extracted_text)
         print(f"[API] Found {len(candidates)} candidates")
