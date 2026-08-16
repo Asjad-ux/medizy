@@ -53,7 +53,7 @@ def check_medicine_stock(med_name):
 def get_cheapest_option(results):
     return min(results, key=lambda x: x['price'])
 
-# 📍 Distance (Haversine)
+# Distance (Haversine)
 def calculate_distance(lat1, lon1, lat2, lon2):
     R = 6371
     dlat = math.radians(lat2 - lat1)
