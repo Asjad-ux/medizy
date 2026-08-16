@@ -139,7 +139,7 @@ def upload_prescription():
         
         print(f"[API] OCR successful - {len(extracted_text)} chars, confidence: {confidence}%")
         
-        # Step 4: Get database medicines
+        # Get database medicines
         print("[API] Fetching medicines from database...")
         db_medicines = get_medicines_from_db()
         
