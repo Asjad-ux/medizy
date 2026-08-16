@@ -112,7 +112,7 @@ def upload_prescription():
         
         print(f"[API] File received: {file.filename} ({file_size} bytes)")
         
-        # Step 2: Read image bytes
+
         image_bytes = file.read()
         
         # Step 3: Run OCR
