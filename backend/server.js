@@ -15,7 +15,7 @@ const db = require("./db");
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);
 
-// ================= SEARCH
+// =================SEARCH
 app.get("/search", (req, res) => {
   const q = req.query.q || "";
 
