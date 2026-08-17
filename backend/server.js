@@ -37,7 +37,7 @@ app.get("/search", (req, res) => {
   });
 });
 
-// ================= PRICE =================
+// ================= PRICE 
 app.get("/api/price", (req, res) => {
   const query = req.query.q || "";
 
