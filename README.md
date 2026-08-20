@@ -424,7 +424,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-Built with ❤️ by · Nubaid Uddin & Asjad Zia Siddiqui
+Built with ❤️ by · [Nubaid Uddin](https://github.com/NUBAID-UDDIN) & Asjad Zia Siddiqui
 
 *Fewer dead-end searches. Better healthcare access.*
 
