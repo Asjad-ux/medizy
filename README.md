@@ -402,10 +402,6 @@ Only queries that pass at least one of the first two checks are sent to `Qwen/Qw
 
 ---
 
-
-
----
-
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome.
