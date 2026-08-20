@@ -402,17 +402,7 @@ Only queries that pass at least one of the first two checks are sent to `Qwen/Qw
 
 ---
 
-## 🎬 Demo
 
-**Live flow:** scan → OCR → fuzzy match → stock/price/location → explain
-
-Suggested demo sequence:
-1. Upload a prescription
-2. Show matched medicines
-3. Open price comparison
-4. Ask Medibot for the next step
-
-📹 [Watch the demo](https://drive.google.com/file/d/1abDm7UjSwr8IuIhhhpTsNrsbcCDnVDe/view?usp=sharing)
 
 ---
 
