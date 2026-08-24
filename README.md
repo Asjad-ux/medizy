@@ -343,13 +343,15 @@ Contributions, issues, and feature requests are welcome.
 ---
 
 ## 📄 License
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 <div align="center">
 
-Built with ❤️ for better healthcare access
+Built with ❤️ by · [Nubaid Uddin](https://github.com/NUBAID-UDDIN) & [Asjad Zia Siddiqui](https://github.com/Asjad-ux)
+
+*Fewer dead-end searches. Better healthcare access.*
 
 </div>
