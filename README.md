@@ -12,8 +12,7 @@
 [![Database](https://img.shields.io/badge/Database-MySQL-4479A1?style=flat-square&logo=mysql)](https://www.mysql.com)
 [![AI](https://img.shields.io/badge/AI-Qwen2.5--7B-7C3AED?style=flat-square)](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
 [![OCR](https://img.shields.io/badge/OCR-Tesseract%20%2B%20OpenCV-F59E0B?style=flat-square)](https://github.com/tesseract-ocr/tesseract)
-[![License](https://img.shields.io/badge/License-Not%20Specified-lightgrey?style=flat-square)](#license)
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](#license)
 <br/>
 
 [Features](#-features) · [Architecture](#-architecture) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Database Schema](#-database-schema) · [Project Structure](#-project-structure) · [Contributing](#-contributing)
