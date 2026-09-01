@@ -169,7 +169,7 @@ Make sure you have all of the following installed:
 ### 1 — Clone the repository
 
 ```bash
-git clone https://github.com/your-username/medizy.git
+git clone https://github.com/Asjad-ux/medizy.git
 cd medizy
 ```
 
