@@ -1,61 +1,61 @@
-# 🔐 ENV FILES (VERY IMPORTANT)
+# ENV FILES (VERY IMPORTANT)
 .env
 .env.*
 *.env
 
-# 🔑 API KEYS / SECRETS
+# API KEYS / SECRETS
 config.py
 
-# 🐍 PYTHON FILES
+# PYTHON FILES
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 
-# 🧪 VIRTUAL ENV
+# VIRTUAL ENV
 venv/
 env/
 ENV/
 .venv/
 
-# 📦 NODE MODULES (if using frontend/backend JS)
+# NODE MODULES (if using frontend/backend JS)
 node_modules/
 
-# 🧾 LOG FILES
+# LOG FILES
 *.log
 
-# 📂 SYSTEM FILES
+# SYSTEM FILES
 .DS_Store
 Thumbs.db
 
-# 📊 DATABASE FILES
+# DATABASE FILES
 *.sql
 *.db
 *.sqlite3
 
-# 📁 UPLOADS / GENERATED FILES
+# UPLOADS / GENERATED FILES
 uploads/
 temp/
 tmp/
 
-# 🧠 MODEL FILES (AI)
+# MODEL FILES (AI)
 *.bin
 *.pt
 *.ckpt
 
-# 🧪 TEST CACHE
+# TEST CACHE
 .pytest_cache/
 .coverage
 
-# 🔧 IDE FILES
+# IDE FILES
 .vscode/
 .idea/
 
-# 📦 BUILD FILES
+# BUILD FILES
 dist/
 build/
 
-# 🔒 SECRET JSON FILES (Google, Firebase, etc.)
+# SECRET JSON FILES (Google, Firebase, etc.)
 *.json
 
 # 📸 OPTIONAL (if you don’t want images tracked)
